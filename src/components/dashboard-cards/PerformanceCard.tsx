@@ -77,7 +77,7 @@ const PerformanceCard = ({ debateData }: PerformanceCardProps) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-3xl">Performance</CardTitle>
+        <CardTitle className="text-4xl">Performance</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
