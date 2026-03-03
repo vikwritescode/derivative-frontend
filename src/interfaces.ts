@@ -11,6 +11,7 @@ export interface DebateRecord {
   categories: Array<string>;
   tournament: string;
   tournament_id: string;
+  partner: string;
 }
 
 export interface TournamentRecord {
@@ -20,4 +21,5 @@ export interface TournamentRecord {
   team_standing: number;
   rooms: number;
   date: string;
+  partner: string;
 }

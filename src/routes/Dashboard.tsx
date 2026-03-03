@@ -10,6 +10,13 @@ import { AlertCircleIcon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { DebateRecord } from "@/interfaces";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 // import { DebateRecord } from "@/interfaces";
 
 const Dashboard = () => {
@@ -18,17 +25,21 @@ const Dashboard = () => {
   const [debateData, setDebateData] = useState<DebateRecord[]>([]);
   const [debateArr, setDebateArr] = useState<DebateRecord[]>([]);
   const [error, setError] = useState(false);
+  const [partnerSet, setPartnerSet] = useState<Set<string>>(new Set());
+  const [partner, setPartner] = useState<string>("");
+  const [timeCutoff, setTimeCutoff] = useState<Date>(new Date(0));
 
   const handleFilterChange = (
     timeCutoff: Date,
     prevData: Array<DebateRecord>,
+    partnerFilter: string = "",
   ) => {
-    setDebateArr(
-      prevData.filter((x: DebateRecord) => {
-        const tDate = new Date(x.date);
-        return tDate.getTime() >= timeCutoff.getTime();
-      }),
-    );
+    const filt = prevData.filter((x: DebateRecord) => {
+      const tDate = new Date(x.date);
+      const partnerMatch = partnerFilter ? x.partner === partnerFilter : true;
+      return tDate.getTime() >= timeCutoff.getTime() && partnerMatch;
+    });
+    setDebateArr(filt);
   };
 
   const handleTabChange = (val: string) => {
@@ -36,12 +47,22 @@ const Dashboard = () => {
       // filter past year
       const lastYear = new Date();
       lastYear.setFullYear(lastYear.getFullYear() - 1);
-      handleFilterChange(lastYear, debateData);
+      setTimeCutoff(lastYear);
+      handleFilterChange(lastYear, debateData, partner);
     } else {
       // filter past year
       const beginning = new Date(0);
-      handleFilterChange(beginning, debateData);
+      setTimeCutoff(beginning);
+      handleFilterChange(beginning, debateData, partner);
     }
+  };
+  const handlePartnerChange = (val: string) => {
+    let v = val;
+    if (val == "all") {
+      v = "";
+    }
+    setPartner(v);
+    handleFilterChange(timeCutoff, debateData, v);
   };
   useEffect(() => {
     const fetchStuff = async () => {
@@ -61,6 +82,8 @@ const Dashboard = () => {
         const json = await response.json();
         console.log(json);
         setDebateData(json.debates);
+        const d: Array<DebateRecord> = json.debates;
+        setPartnerSet(new Set(d.map((x) => x.partner)));
 
         // filter past year
         const lastYear = new Date();
@@ -109,24 +132,41 @@ const Dashboard = () => {
         </div>
       ) : (
         <div className="mt-6">
-          <div className="w-full">
-            <Tabs
-              defaultValue="year"
-              className="w-full"
-              onValueChange={handleTabChange}
-            >
-              <TabsList className="grid w-full md:w-fit grid-cols-2 h-12 bg-card border pb-8.25">
-                <TabsTrigger value="year">Past Year</TabsTrigger>
-                <TabsTrigger value="all">All Time</TabsTrigger>
-              </TabsList>
-            </Tabs>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex flex-col md:flex-row md:justify-between gap-4 items-stretch md:items-center">
+              <Tabs
+                defaultValue="year"
+                className="w-full md:w-fit flex-1"
+                onValueChange={handleTabChange}
+              >
+                <TabsList className="grid w-full grid-cols-2 h-12 bg-card border">
+                  <TabsTrigger value="year">Past Year</TabsTrigger>
+                  <TabsTrigger value="all">All Time</TabsTrigger>
+                </TabsList>
+              </Tabs>
+
+              <Select onValueChange={handlePartnerChange}>
+                <SelectTrigger className="w-full md:w-[200px] h-12">
+                  <SelectValue placeholder="All Partners" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Partners</SelectItem>
+                  {[...partnerSet].map((x) => (
+                    <SelectItem key={x} value={x}>
+                      {x}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
-          <div className="grid grid-cols-1 gap-6 mt-2">
+
+          <div className="grid grid-cols-1 gap-6 mt-6">
             <AverageSpeaksCard debateData={debateArr} />
             <PerformanceCard debateData={debateArr} />
           </div>
 
-          <div className="mt-6">
+          <div className="mt-4">
             <h2 className="text-3xl sm:text-4xl font-semibold">Positions</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
               <PieChartPositionCard
