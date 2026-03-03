@@ -146,7 +146,7 @@ const Dashboard = () => {
               </Tabs>
 
               <Select onValueChange={handlePartnerChange}>
-                <SelectTrigger className="w-full md:w-[200px] h-12">
+                <SelectTrigger className="w-full md:w-50 h-12">
                   <SelectValue placeholder="All Partners" />
                 </SelectTrigger>
                 <SelectContent>
