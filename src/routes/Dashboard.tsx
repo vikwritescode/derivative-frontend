@@ -88,6 +88,7 @@ const Dashboard = () => {
         // filter past year
         const lastYear = new Date();
         lastYear.setFullYear(lastYear.getFullYear() - 1);
+        setTimeCutoff(lastYear);
         handleFilterChange(lastYear, json.debates);
       } catch (err) {
         console.error(err);
