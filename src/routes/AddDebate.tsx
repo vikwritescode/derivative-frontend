@@ -269,7 +269,7 @@ const AddDebate = () => {
               <Textarea
                 value={infoSlide}
                 onChange={(e) => setInfoSlide(e.target.value)}
-                className="min-h-[80px] w-full text-sm resize-y"
+                className="min-h-20 w-full text-sm resize-y"
                 placeholder="Info Slide"
               />
             </div>
@@ -279,7 +279,7 @@ const AddDebate = () => {
               <Textarea
                 value={motion}
                 onChange={(e) => setMotion(e.target.value)}
-                className="min-h-[80px] w-full text-sm resize-y"
+                className="min-h-20 w-full text-sm resize-y"
                 placeholder="Motion"
               />
             </div>
