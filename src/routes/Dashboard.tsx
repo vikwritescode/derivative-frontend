@@ -205,6 +205,7 @@ const Dashboard = () => {
           </div>
           {/* BP dashboard cards */}
           <div hidden={bpData.length === 0}>
+            <h2 className="text-3xl sm:text-4xl font-semibold mt-6">BP</h2>
             <div className="grid grid-cols-1 gap-6 mt-6">
               <AverageSpeaksCard debateData={bpData} />
               <PerformanceCard debateData={bpData} />
@@ -251,7 +252,13 @@ const Dashboard = () => {
           </div>
           {/* WSDC dashboard cards */}
           <div hidden={wsdcData.length === 0} className="mt-6">
-            <WSDCAverageSpeaksCard debateData={wsdcData} />
+            <h2 className="text-3xl sm:text-4xl font-semibold">WSDC</h2>
+            <div className="mt-6">
+              <WSDCAverageSpeaksCard debateData={wsdcData} />
+            </div>
+            <div className="mt-6">
+              <PerformanceCard debateData={wsdcData} />
+            </div>
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
               <PieChartPointCard title="Win" debateData={wsdcData} points={1} />
               <PieChartPointCard
@@ -271,6 +278,9 @@ const Dashboard = () => {
                 debateData={wsdcData}
                 position="NEG"
               />
+            </div>
+            <div className="mt-6">
+              <TopicCard debateData={wsdcData} />
             </div>
           </div>
         </div>
