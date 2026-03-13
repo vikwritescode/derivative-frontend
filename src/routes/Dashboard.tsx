@@ -10,6 +10,7 @@ import { AlertCircleIcon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { DebateRecord } from "@/interfaces";
+import { useNavigate } from "react-router-dom";
 import {
   Select,
   SelectContent,
@@ -17,6 +18,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Empty,
+  EmptyTitle,
+  EmptyHeader,
+  EmptyDescription,
+  EmptyContent,
+} from "@/components/ui/empty";
+import { Button } from "@/components/ui/button";
+import WSDCAverageSpeaksCard from "@/components/dashboard-cards/WSDCAverageSpeaksCard";
 // import { DebateRecord } from "@/interfaces";
 
 const Dashboard = () => {
@@ -24,10 +34,20 @@ const Dashboard = () => {
   const [load, setLoad] = useState(false);
   const [debateData, setDebateData] = useState<DebateRecord[]>([]);
   const [debateArr, setDebateArr] = useState<DebateRecord[]>([]);
+  // different arrays to pass to the cards
+  const [bpData, setBpData] = useState<DebateRecord[]>([]);
+  const [wsdcData, setWsdcData] = useState<DebateRecord[]>([]);
   const [error, setError] = useState(false);
   const [partnerSet, setPartnerSet] = useState<Set<string>>(new Set());
   const [partner, setPartner] = useState<string>("");
   const [timeCutoff, setTimeCutoff] = useState<Date>(new Date(0));
+  const navigate = useNavigate();
+
+  // Keep format-specific datasets in sync with the filtered debate list.
+  useEffect(() => {
+    setBpData(debateArr.filter((x) => x.format === "BP"));
+    setWsdcData(debateArr.filter((x) => x.format === "WSDC"));
+  }, [debateArr]);
 
   const handleFilterChange = (
     timeCutoff: Date,
@@ -100,6 +120,10 @@ const Dashboard = () => {
     fetchStuff();
   }, []);
 
+  const handleAddEmpty = () => {
+    navigate("/import");
+  };
+
   if (error) {
     return (
       <div className="w-full px-4 py-6 overflow-x-hidden">
@@ -113,6 +137,24 @@ const Dashboard = () => {
           </AlertTitle>
           <AlertDescription>Please reload the page.</AlertDescription>
         </Alert>
+      </div>
+    );
+  }
+  if (debateData.length === 0 && !load) {
+    return (
+      <div className="w-full px-4 py-6 overflow-x-hidden">
+        <Empty>
+          <EmptyHeader>
+            <EmptyTitle>No Debates Found</EmptyTitle>
+            <EmptyDescription>
+              You haven't imported any tournaments yet. Import a tab from a URL,
+              or add a tournament manually to get started.
+            </EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent>
+            <Button onClick={handleAddEmpty}>Import Debates</Button>
+          </EmptyContent>
+        </Empty>
       </div>
     );
   }
@@ -161,65 +203,85 @@ const Dashboard = () => {
               </Select>
             </div>
           </div>
+          {/* BP dashboard cards */}
+          <div hidden={bpData.length === 0}>
+            <h2 className="text-3xl sm:text-4xl font-semibold mt-6">BP</h2>
+            <div className="grid grid-cols-1 gap-6 mt-6">
+              <AverageSpeaksCard debateData={bpData} />
+              <PerformanceCard debateData={bpData} />
+            </div>
 
-          <div className="grid grid-cols-1 gap-6 mt-6">
-            <AverageSpeaksCard debateData={debateArr} />
-            <PerformanceCard debateData={debateArr} />
-          </div>
+            <div className="mt-4">
+              <h2 className="text-3xl sm:text-4xl font-semibold">Positions</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+                <PieChartPositionCard
+                  title="OG"
+                  debateData={bpData}
+                  position="OG"
+                />
+                <PieChartPositionCard
+                  title="OO"
+                  debateData={bpData}
+                  position="OO"
+                />
+                <PieChartPositionCard
+                  title="CG"
+                  debateData={bpData}
+                  position="CG"
+                />
+                <PieChartPositionCard
+                  title="CO"
+                  debateData={bpData}
+                  position="CO"
+                />
+              </div>
+            </div>
 
-          <div className="mt-4">
-            <h2 className="text-3xl sm:text-4xl font-semibold">Positions</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-              <PieChartPositionCard
-                title="OG"
-                debateData={debateArr}
-                position="OG"
-              />
-              <PieChartPositionCard
-                title="OO"
-                debateData={debateArr}
-                position="OO"
-              />
-              <PieChartPositionCard
-                title="CG"
-                debateData={debateArr}
-                position="CG"
-              />
-              <PieChartPositionCard
-                title="CO"
-                debateData={debateArr}
-                position="CO"
-              />
+            <div className="mt-6">
+              <h2 className="text-3xl sm:text-4xl font-semibold">Points</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+                <PieChartPointCard title="1st" debateData={bpData} points={3} />
+                <PieChartPointCard title="2nd" debateData={bpData} points={2} />
+                <PieChartPointCard title="3rd" debateData={bpData} points={1} />
+                <PieChartPointCard title="4th" debateData={bpData} points={0} />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 gap-6 mt-6">
+              <TopicCard debateData={bpData} />
             </div>
           </div>
-
-          <div className="mt-6">
-            <h2 className="text-3xl sm:text-4xl font-semibold">Points</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+          {/* WSDC dashboard cards */}
+          <div hidden={wsdcData.length === 0} className="mt-6">
+            <h2 className="text-3xl sm:text-4xl font-semibold">WSDC</h2>
+            <div className="mt-6">
+              <WSDCAverageSpeaksCard debateData={wsdcData} />
+            </div>
+            <div className="mt-6">
+              <PerformanceCard debateData={wsdcData} />
+            </div>
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <PieChartPointCard title="Win" debateData={wsdcData} points={1} />
               <PieChartPointCard
-                title="1st"
-                debateData={debateArr}
-                points={3}
-              />
-              <PieChartPointCard
-                title="2nd"
-                debateData={debateArr}
-                points={2}
-              />
-              <PieChartPointCard
-                title="3rd"
-                debateData={debateArr}
-                points={1}
-              />
-              <PieChartPointCard
-                title="4th"
-                debateData={debateArr}
+                title="Loss"
+                debateData={wsdcData}
                 points={0}
               />
             </div>
-          </div>
-          <div className="grid grid-cols-1 gap-6 mt-6">
-            <TopicCard debateData={debateArr} />
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <PieChartPositionCard
+                title="Affirmative"
+                debateData={wsdcData}
+                position="AFF"
+              />
+              <PieChartPositionCard
+                title="Negative"
+                debateData={wsdcData}
+                position="NEG"
+              />
+            </div>
+            <div className="mt-6">
+              <TopicCard debateData={wsdcData} />
+            </div>
           </div>
         </div>
       )}

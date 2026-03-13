@@ -10,6 +10,13 @@ import { AlertCircleIcon } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
 import { useNavigate } from "react-router-dom";
 import { Calendar } from "@/components/ui/calendar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 interface slugInterface {
   name: string;
   slug: string;
@@ -41,6 +48,13 @@ const ImportDebates = () => {
   const [tabError, setTabError] = useState(false);
   const [date, setDate] = useState<Date>(new Date());
   const [month, setMonth] = useState<Date>(new Date());
+  const [tournamentType, setTournamentType] = useState("BP");
+
+  // object for endpoints
+  const endpointReference: Record<string, string> = {
+    "BP": `${import.meta.env.VITE_API_URL}/api/import`,
+    "WSDC": `${import.meta.env.VITE_API_URL}/api/wsdc/import`,
+  }
 
   const handleSlugFetch = async () => {
     setFetchedTouraments(true);
@@ -172,7 +186,7 @@ const ImportDebates = () => {
         date: date.toISOString().slice(0, 10),
       };
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/import`,
+        endpointReference[tournamentType],
         {
           method: "POST",
           headers: {
@@ -248,7 +262,7 @@ const ImportDebates = () => {
             <div hidden={!fetchedTournaments}>
               {load ? (
                 <div className="flex flex-col space-y-3">
-                  <Skeleton className="h-[125px] w-full rounded-xl" />
+                  <Skeleton className="h-31.25 w-full rounded-xl" />
                   <div className="space-y-2">
                     <Skeleton className="h-4 w-3/4" />
                     <Skeleton className="h-4 w-1/2" />
@@ -308,9 +322,7 @@ const ImportDebates = () => {
 
             <Alert variant="destructive" hidden={!nameError}>
               <AlertCircleIcon className="h-4 w-4" />
-              <AlertTitle className="text-left">
-                Error fetching data
-              </AlertTitle>
+              <AlertTitle className="text-left">Error fetching data</AlertTitle>
               <AlertDescription className="text-left">
                 {errorMessage}
               </AlertDescription>
@@ -362,10 +374,23 @@ const ImportDebates = () => {
                       className="rounded-md border shadow-sm w-full"
                       captionLayout="dropdown"
                     />
+                    <h3 className="text-xl">Tournament Type</h3>
+                    <Select
+                      value={tournamentType}
+                      onValueChange={setTournamentType}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="BP">BP</SelectItem>
+                        <SelectItem value="WSDC">WSDC</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <Button
                       onClick={handleMakeRecords}
                       disabled={tabLoad}
-                      className="w-full"
+                      className="w-full mt-1"
                     >
                       {tabLoad ? <Spinner /> : "Add Records"}
                     </Button>
