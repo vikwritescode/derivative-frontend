@@ -34,12 +34,22 @@ const PieChartPointCard = ({
       label: "CO",
       color: "var(--chart-alt-primary)",
     },
+    AFF: {
+      label: "Affirmative",
+      color: "var(--chart-primary)",
+    },
+    NEG: {
+      label: "Negative",
+      color: "var(--chart-alt-primary)",
+    },
   } satisfies ChartConfig;
   const chartData = [
     { position: "OG", count: 0 },
     { position: "OO", count: 0 },
     { position: "CG", count: 0 },
     { position: "CO", count: 0 },
+    { position: "AFF", count: 0 },
+    { position: "NEG", count: 0 },
   ];
   debateData
     .filter((x) => x["points"] == points)
@@ -59,7 +69,7 @@ const PieChartPointCard = ({
       <CardContent>
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
+          className="mx-auto aspect-square max-h-62.5"
         >
           <PieChart>
             <ChartTooltip

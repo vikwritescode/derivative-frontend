@@ -13,6 +13,8 @@ export interface DebateRecord {
   tournament_id: string;
   partner: string;
   format: string;
+  has_reply: boolean;
+  reply: number;
 }
 
 export interface TournamentRecord {

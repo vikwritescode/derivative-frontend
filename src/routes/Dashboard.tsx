@@ -26,6 +26,7 @@ import {
   EmptyContent,
 } from "@/components/ui/empty";
 import { Button } from "@/components/ui/button";
+import WSDCAverageSpeaksCard from "@/components/dashboard-cards/WSDCAverageSpeaksCard";
 // import { DebateRecord } from "@/interfaces";
 
 const Dashboard = () => {
@@ -42,11 +43,11 @@ const Dashboard = () => {
   const [timeCutoff, setTimeCutoff] = useState<Date>(new Date(0));
   const navigate = useNavigate();
 
-  // update our bp and wsdc filters whenever debateData changes
+  // Keep format-specific datasets in sync with the filtered debate list.
   useEffect(() => {
-    setBpData(debateData.filter((x) => x.format === "BP"));
-    setWsdcData(debateData.filter((x) => x.format === "WSDC"));
-  }, [debateData]);
+    setBpData(debateArr.filter((x) => x.format === "BP"));
+    setWsdcData(debateArr.filter((x) => x.format === "WSDC"));
+  }, [debateArr]);
 
   const handleFilterChange = (
     timeCutoff: Date,
@@ -121,7 +122,7 @@ const Dashboard = () => {
 
   const handleAddEmpty = () => {
     navigate("/import");
-  }
+  };
 
   if (error) {
     return (
@@ -151,9 +152,7 @@ const Dashboard = () => {
             </EmptyDescription>
           </EmptyHeader>
           <EmptyContent>
-            <Button onClick={handleAddEmpty}>
-              Import Debates
-            </Button>
+            <Button onClick={handleAddEmpty}>Import Debates</Button>
           </EmptyContent>
         </Empty>
       </div>
@@ -204,49 +203,75 @@ const Dashboard = () => {
               </Select>
             </div>
           </div>
+          {/* BP dashboard cards */}
+          <div hidden={bpData.length === 0}>
+            <div className="grid grid-cols-1 gap-6 mt-6">
+              <AverageSpeaksCard debateData={bpData} />
+              <PerformanceCard debateData={bpData} />
+            </div>
 
-          <div className="grid grid-cols-1 gap-6 mt-6">
-            <AverageSpeaksCard debateData={bpData} />
-            <PerformanceCard debateData={bpData} />
-          </div>
+            <div className="mt-4">
+              <h2 className="text-3xl sm:text-4xl font-semibold">Positions</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+                <PieChartPositionCard
+                  title="OG"
+                  debateData={bpData}
+                  position="OG"
+                />
+                <PieChartPositionCard
+                  title="OO"
+                  debateData={bpData}
+                  position="OO"
+                />
+                <PieChartPositionCard
+                  title="CG"
+                  debateData={bpData}
+                  position="CG"
+                />
+                <PieChartPositionCard
+                  title="CO"
+                  debateData={bpData}
+                  position="CO"
+                />
+              </div>
+            </div>
 
-          <div className="mt-4">
-            <h2 className="text-3xl sm:text-4xl font-semibold">Positions</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-              <PieChartPositionCard
-                title="OG"
-                debateData={bpData}
-                position="OG"
-              />
-              <PieChartPositionCard
-                title="OO"
-                debateData={bpData}
-                position="OO"
-              />
-              <PieChartPositionCard
-                title="CG"
-                debateData={bpData}
-                position="CG"
-              />
-              <PieChartPositionCard
-                title="CO"
-                debateData={bpData}
-                position="CO"
-              />
+            <div className="mt-6">
+              <h2 className="text-3xl sm:text-4xl font-semibold">Points</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+                <PieChartPointCard title="1st" debateData={bpData} points={3} />
+                <PieChartPointCard title="2nd" debateData={bpData} points={2} />
+                <PieChartPointCard title="3rd" debateData={bpData} points={1} />
+                <PieChartPointCard title="4th" debateData={bpData} points={0} />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 gap-6 mt-6">
+              <TopicCard debateData={bpData} />
             </div>
           </div>
-
-          <div className="mt-6">
-            <h2 className="text-3xl sm:text-4xl font-semibold">Points</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-              <PieChartPointCard title="1st" debateData={bpData} points={3} />
-              <PieChartPointCard title="2nd" debateData={bpData} points={2} />
-              <PieChartPointCard title="3rd" debateData={bpData} points={1} />
-              <PieChartPointCard title="4th" debateData={bpData} points={0} />
+          {/* WSDC dashboard cards */}
+          <div hidden={wsdcData.length === 0} className="mt-6">
+            <WSDCAverageSpeaksCard debateData={wsdcData} />
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <PieChartPointCard title="Win" debateData={wsdcData} points={1} />
+              <PieChartPointCard
+                title="Loss"
+                debateData={wsdcData}
+                points={0}
+              />
             </div>
-          </div>
-          <div className="grid grid-cols-1 gap-6 mt-6">
-            <TopicCard debateData={bpData} />
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <PieChartPositionCard
+                title="Affirmative"
+                debateData={wsdcData}
+                position="AFF"
+              />
+              <PieChartPositionCard
+                title="Negative"
+                debateData={wsdcData}
+                position="NEG"
+              />
+            </div>
           </div>
         </div>
       )}

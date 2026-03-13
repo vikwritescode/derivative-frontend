@@ -32,6 +32,8 @@ const PieChartPositionCard = ({
       oo: [0, 0],
       cg: [0, 0],
       co: [0, 0],
+      aff: [0, 0],
+      neg: [0, 0]
     },
   );
   const speakStats = debateData.reduce(
@@ -48,6 +50,8 @@ const PieChartPositionCard = ({
       oo: [0, 0],
       cg: [0, 0],
       co: [0, 0],
+      aff: [0, 0],
+      neg: [0, 0],
     },
   );
 
@@ -93,13 +97,13 @@ const PieChartPositionCard = ({
           {title}
         </CardTitle>
         <CardDescription>
-          {dispAv(speakStats[title.toLowerCase()])} speaks
+          {dispAv(speakStats[position.toLowerCase()])} speaks
         </CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
+          className="mx-auto aspect-square max-h-62.5"
         >
           <PieChart>
             <ChartTooltip
@@ -130,7 +134,7 @@ const PieChartPositionCard = ({
                           y={viewBox.cy}
                           className="fill-foreground text-3xl"
                         >
-                          {dispAv(teamStats[title.toLowerCase()])}
+                          {dispAv(teamStats[position.toLowerCase()])}
                         </tspan>
                       </text>
                     );
