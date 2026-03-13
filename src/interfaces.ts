@@ -12,6 +12,7 @@ export interface DebateRecord {
   tournament: string;
   tournament_id: string;
   partner: string;
+  format: string;
 }
 
 export interface TournamentRecord {

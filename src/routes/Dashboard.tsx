@@ -10,6 +10,7 @@ import { AlertCircleIcon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { DebateRecord } from "@/interfaces";
+import { useNavigate } from "react-router-dom";
 import {
   Select,
   SelectContent,
@@ -17,6 +18,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Empty,
+  EmptyTitle,
+  EmptyHeader,
+  EmptyDescription,
+  EmptyContent,
+} from "@/components/ui/empty";
+import { Button } from "@/components/ui/button";
 // import { DebateRecord } from "@/interfaces";
 
 const Dashboard = () => {
@@ -24,10 +33,20 @@ const Dashboard = () => {
   const [load, setLoad] = useState(false);
   const [debateData, setDebateData] = useState<DebateRecord[]>([]);
   const [debateArr, setDebateArr] = useState<DebateRecord[]>([]);
+  // different arrays to pass to the cards
+  const [bpData, setBpData] = useState<DebateRecord[]>([]);
+  const [wsdcData, setWsdcData] = useState<DebateRecord[]>([]);
   const [error, setError] = useState(false);
   const [partnerSet, setPartnerSet] = useState<Set<string>>(new Set());
   const [partner, setPartner] = useState<string>("");
   const [timeCutoff, setTimeCutoff] = useState<Date>(new Date(0));
+  const navigate = useNavigate();
+
+  // update our bp and wsdc filters whenever debateData changes
+  useEffect(() => {
+    setBpData(debateData.filter((x) => x.format === "BP"));
+    setWsdcData(debateData.filter((x) => x.format === "WSDC"));
+  }, [debateData]);
 
   const handleFilterChange = (
     timeCutoff: Date,
@@ -100,6 +119,10 @@ const Dashboard = () => {
     fetchStuff();
   }, []);
 
+  const handleAddEmpty = () => {
+    navigate("/import");
+  }
+
   if (error) {
     return (
       <div className="w-full px-4 py-6 overflow-x-hidden">
@@ -113,6 +136,26 @@ const Dashboard = () => {
           </AlertTitle>
           <AlertDescription>Please reload the page.</AlertDescription>
         </Alert>
+      </div>
+    );
+  }
+  if (debateData.length === 0 && !load) {
+    return (
+      <div className="w-full px-4 py-6 overflow-x-hidden">
+        <Empty>
+          <EmptyHeader>
+            <EmptyTitle>No Debates Found</EmptyTitle>
+            <EmptyDescription>
+              You haven't imported any tournaments yet. Import a tab from a URL,
+              or add a tournament manually to get started.
+            </EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent>
+            <Button onClick={handleAddEmpty}>
+              Import Debates
+            </Button>
+          </EmptyContent>
+        </Empty>
       </div>
     );
   }
@@ -163,8 +206,8 @@ const Dashboard = () => {
           </div>
 
           <div className="grid grid-cols-1 gap-6 mt-6">
-            <AverageSpeaksCard debateData={debateArr} />
-            <PerformanceCard debateData={debateArr} />
+            <AverageSpeaksCard debateData={bpData} />
+            <PerformanceCard debateData={bpData} />
           </div>
 
           <div className="mt-4">
@@ -172,22 +215,22 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
               <PieChartPositionCard
                 title="OG"
-                debateData={debateArr}
+                debateData={bpData}
                 position="OG"
               />
               <PieChartPositionCard
                 title="OO"
-                debateData={debateArr}
+                debateData={bpData}
                 position="OO"
               />
               <PieChartPositionCard
                 title="CG"
-                debateData={debateArr}
+                debateData={bpData}
                 position="CG"
               />
               <PieChartPositionCard
                 title="CO"
-                debateData={debateArr}
+                debateData={bpData}
                 position="CO"
               />
             </div>
@@ -196,30 +239,14 @@ const Dashboard = () => {
           <div className="mt-6">
             <h2 className="text-3xl sm:text-4xl font-semibold">Points</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-              <PieChartPointCard
-                title="1st"
-                debateData={debateArr}
-                points={3}
-              />
-              <PieChartPointCard
-                title="2nd"
-                debateData={debateArr}
-                points={2}
-              />
-              <PieChartPointCard
-                title="3rd"
-                debateData={debateArr}
-                points={1}
-              />
-              <PieChartPointCard
-                title="4th"
-                debateData={debateArr}
-                points={0}
-              />
+              <PieChartPointCard title="1st" debateData={bpData} points={3} />
+              <PieChartPointCard title="2nd" debateData={bpData} points={2} />
+              <PieChartPointCard title="3rd" debateData={bpData} points={1} />
+              <PieChartPointCard title="4th" debateData={bpData} points={0} />
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6 mt-6">
-            <TopicCard debateData={debateArr} />
+            <TopicCard debateData={bpData} />
           </div>
         </div>
       )}
