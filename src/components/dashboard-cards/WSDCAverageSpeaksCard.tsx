@@ -19,7 +19,9 @@ const WSDCAverageSpeaksCard = ({ debateData }: AverageSpeaksCardProps) => {
       setMeanReplySpeaks(0);
     } else {
       setMeanSpeaks(mean(speakArray));
-      setMeanReplySpeaks(mean(replySpeakArray));
+      setMeanReplySpeaks(
+        replySpeakArray.length === 0 ? 0 : mean(replySpeakArray),
+      );
     }
   }, [debateData]);
 
