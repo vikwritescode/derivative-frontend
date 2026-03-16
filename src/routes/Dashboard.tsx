@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/empty";
 import { Button } from "@/components/ui/button";
 import WSDCAverageSpeaksCard from "@/components/dashboard-cards/WSDCAverageSpeaksCard";
+import { set } from "date-fns";
 // import { DebateRecord } from "@/interfaces";
 
 const Dashboard = () => {
@@ -194,11 +195,13 @@ const Dashboard = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Partners</SelectItem>
-                  {[...partnerSet].map((x) => (
-                    <SelectItem key={x} value={x}>
-                      {x}
-                    </SelectItem>
-                  ))}
+                  {[...partnerSet]
+                    .filter((x) => x !== null)
+                    .map((x) => (
+                      <SelectItem key={x} value={x}>
+                        {x}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
             </div>
