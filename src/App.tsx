@@ -13,6 +13,7 @@ import Help from "./routes/Help";
 import { ThemeProvider } from "@/components/theme-provider";
 import AddTournaments from "./routes/AddTournaments";
 import Tournaments from "./routes/Tournaments";
+import UnprotectedRoute from "./routes/UnprotectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -29,11 +30,19 @@ const router = createBrowserRouter([
       },
       {
         path: "signin",
-        element: <SignIn />,
+        element: (
+          <UnprotectedRoute>
+            <SignIn />
+          </UnprotectedRoute>
+        ),
       },
       {
         path: "signup",
-        element: <SignUp />,
+        element: (
+          <UnprotectedRoute>
+            <SignUp />
+          </UnprotectedRoute>
+        ),
       },
       {
         path: "debates",

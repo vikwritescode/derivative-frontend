@@ -27,7 +27,6 @@ import {
 } from "@/components/ui/empty";
 import { Button } from "@/components/ui/button";
 import WSDCAverageSpeaksCard from "@/components/dashboard-cards/WSDCAverageSpeaksCard";
-import { set } from "date-fns";
 // import { DebateRecord } from "@/interfaces";
 
 const Dashboard = () => {
