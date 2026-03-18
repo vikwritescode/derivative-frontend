@@ -10,10 +10,10 @@ import {
 } from "@/components/ui/table";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Trash, AlertCircleIcon, Plus, ChevronsUp, ChevronsDown } from "lucide-react";
+import { Trash, AlertCircleIcon, Plus, ChevronsUp, ChevronsDown, Cat } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { Badge } from "@/components/ui/badge";
+import CategoryBadge from "@/components/CategoryBadge";
 import { type DebateRecord } from "@/interfaces";
 
 import {
@@ -253,12 +253,7 @@ const Debates = () => {
                       {(rec["categories"] || [])
                         .filter((x: string) => x)
                         .map((x: string) => (
-                          <Badge
-                            key={x}
-                            className="text-xs px-2 py-1 rounded-md"
-                          >
-                            {x}
-                          </Badge>
+                          <CategoryBadge category={x} />
                         ))}
                     </div>
                   </TableCell>
