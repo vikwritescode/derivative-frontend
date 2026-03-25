@@ -202,6 +202,8 @@ const Debates = () => {
                     OO: 1,
                     CG: 2,
                     CO: 3,
+                    AFF: 4,
+                    NEG: 5,
                   };
                   return mult * (positions[a[sortBy]] - positions[b[sortBy]]);
                 }
