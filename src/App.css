@@ -44,3 +44,393 @@
 .read-the-docs {
   color: #888;
 }
+
+:root {
+  --category-text-dark-default: #020617;
+
+  --category-politics-bg: #bfdbfe;
+  --category-politics-text: #1e3a8a;
+  --category-politics-bg-dark: #93c5fd;
+  --category-politics-text-dark: var(--category-text-dark-default);
+
+  --category-economics-bg: #fde68a;
+  --category-economics-text: #78350f;
+  --category-economics-bg-dark: #fcd34d;
+  --category-economics-text-dark: var(--category-text-dark-default);
+
+  --category-social-bg: #fecdd3;
+  --category-social-text: #881337;
+  --category-social-bg-dark: #fda4af;
+  --category-social-text-dark: var(--category-text-dark-default);
+
+  --category-philosophy-bg: #ddd6fe;
+  --category-philosophy-text: #4c1d95;
+  --category-philosophy-bg-dark: #c4b5fd;
+  --category-philosophy-text-dark: var(--category-text-dark-default);
+
+  --category-international-relations-bg: #a5f3fc;
+  --category-international-relations-text: #164e63;
+  --category-international-relations-bg-dark: #67e8f9;
+  --category-international-relations-text-dark: var(--category-text-dark-default);
+
+  --category-law-bg: #cbd5e1;
+  --category-law-text: #0f172a;
+  --category-law-bg-dark: #cbd5e1;
+  --category-law-text-dark: var(--category-text-dark-default);
+
+  --category-science-tech-bg: #c7d2fe;
+  --category-science-tech-text: #312e81;
+  --category-science-tech-bg-dark: #a5b4fc;
+  --category-science-tech-text-dark: var(--category-text-dark-default);
+
+  --category-environment-bg: #a7f3d0;
+  --category-environment-text: #064e3b;
+  --category-environment-bg-dark: #6ee7b7;
+  --category-environment-text-dark: var(--category-text-dark-default);
+
+  --category-ethics-bg: #f5d0fe;
+  --category-ethics-text: #701a75;
+  --category-ethics-bg-dark: #f0abfc;
+  --category-ethics-text-dark: var(--category-text-dark-default);
+
+  --category-religion-bg: #e9d5ff;
+  --category-religion-text: #581c87;
+  --category-religion-bg-dark: #d8b4fe;
+  --category-religion-text-dark: var(--category-text-dark-default);
+
+  --category-feminism-bg: #fbcfe8;
+  --category-feminism-text: #831843;
+  --category-feminism-bg-dark: #f9a8d4;
+  --category-feminism-text-dark: var(--category-text-dark-default);
+
+  --category-gender-bg: #fbcfe8;
+  --category-gender-text: #831843;
+  --category-gender-bg-dark: #f9a8d4;
+  --category-gender-text-dark: var(--category-text-dark-default);
+
+  --category-education-bg: #bae6fd;
+  --category-education-text: #0c4a6e;
+  --category-education-bg-dark: #7dd3fc;
+  --category-education-text-dark: var(--category-text-dark-default);
+
+  --category-culture-bg: #fed7aa;
+  --category-culture-text: #7c2d12;
+  --category-culture-bg-dark: #fdba74;
+  --category-culture-text-dark: var(--category-text-dark-default);
+
+  --category-media-bg: #99f6e4;
+  --category-media-text: #134e4a;
+  --category-media-bg-dark: #5eead4;
+  --category-media-text-dark: var(--category-text-dark-default);
+
+  --category-health-bg: #fecaca;
+  --category-health-text: #7f1d1d;
+  --category-health-bg-dark: #fca5a5;
+  --category-health-text-dark: var(--category-text-dark-default);
+
+  --category-technology-bg: #c7d2fe;
+  --category-technology-text: #312e81;
+  --category-technology-bg-dark: #a5b4fc;
+  --category-technology-text-dark: var(--category-text-dark-default);
+
+  --category-science-bg: #a5f3fc;
+  --category-science-text: #164e63;
+  --category-science-bg-dark: #67e8f9;
+  --category-science-text-dark: var(--category-text-dark-default);
+
+  --category-ai-bg: #bfdbfe;
+  --category-ai-text: #1e3a8a;
+  --category-ai-bg-dark: #93c5fd;
+  --category-ai-text-dark: var(--category-text-dark-default);
+
+  --category-security-bg: #d4d4d8;
+  --category-security-text: #18181b;
+  --category-security-bg-dark: #d4d4d8;
+  --category-security-text-dark: var(--category-text-dark-default);
+
+  --category-war-bg: #fecaca;
+  --category-war-text: #7f1d1d;
+  --category-war-bg-dark: #fca5a5;
+  --category-war-text-dark: var(--category-text-dark-default);
+
+  --category-migration-bg: #d9f99d;
+  --category-migration-text: #365314;
+  --category-migration-bg-dark: #bef264;
+  --category-migration-text-dark: var(--category-text-dark-default);
+
+  --category-labor-bg: #fef08a;
+  --category-labor-text: #713f12;
+  --category-labor-bg-dark: #fde047;
+  --category-labor-text-dark: var(--category-text-dark-default);
+
+  --category-justice-bg: #d6d3d1;
+  --category-justice-text: #1c1917;
+  --category-justice-bg-dark: #d6d3d1;
+  --category-justice-text-dark: var(--category-text-dark-default);
+
+  --category-crime-bg: #d4d4d4;
+  --category-crime-text: #171717;
+  --category-crime-bg-dark: #d4d4d4;
+  --category-crime-text-dark: var(--category-text-dark-default);
+
+  --category-sports-bg: #bbf7d0;
+  --category-sports-text: #14532d;
+  --category-sports-bg-dark: #86efac;
+  --category-sports-text-dark: var(--category-text-dark-default);
+
+  --category-history-bg: #fde68a;
+  --category-history-text: #78350f;
+  --category-history-bg-dark: #fcd34d;
+  --category-history-text-dark: var(--category-text-dark-default);
+}
+
+.category-badge-politics,
+.category-badge-economics,
+.category-badge-social,
+.category-badge-philosophy,
+.category-badge-international-relations,
+.category-badge-law,
+.category-badge-science-tech,
+.category-badge-environment,
+.category-badge-ethics,
+.category-badge-religion,
+.category-badge-feminism,
+.category-badge-gender,
+.category-badge-education,
+.category-badge-culture,
+.category-badge-media,
+.category-badge-health,
+.category-badge-technology,
+.category-badge-science,
+.category-badge-ai,
+.category-badge-security,
+.category-badge-war,
+.category-badge-migration,
+.category-badge-labor,
+.category-badge-justice,
+.category-badge-crime,
+.category-badge-sports,
+.category-badge-history {
+  color: var(--category-text);
+  background-color: var(--category-bg);
+}
+
+.dark .category-badge-politics,
+.dark .category-badge-economics,
+.dark .category-badge-social,
+.dark .category-badge-philosophy,
+.dark .category-badge-international-relations,
+.dark .category-badge-law,
+.dark .category-badge-science-tech,
+.dark .category-badge-environment,
+.dark .category-badge-ethics,
+.dark .category-badge-religion,
+.dark .category-badge-feminism,
+.dark .category-badge-gender,
+.dark .category-badge-education,
+.dark .category-badge-culture,
+.dark .category-badge-media,
+.dark .category-badge-health,
+.dark .category-badge-technology,
+.dark .category-badge-science,
+.dark .category-badge-ai,
+.dark .category-badge-security,
+.dark .category-badge-war,
+.dark .category-badge-migration,
+.dark .category-badge-labor,
+.dark .category-badge-justice,
+.dark .category-badge-crime,
+.dark .category-badge-sports,
+.dark .category-badge-history {
+  color: var(--category-text-dark);
+  background-color: var(--category-bg-dark);
+}
+
+.category-badge-politics {
+  --category-bg: var(--category-politics-bg);
+  --category-text: var(--category-politics-text);
+  --category-bg-dark: var(--category-politics-bg-dark);
+  --category-text-dark: var(--category-politics-text-dark);
+}
+
+.category-badge-economics {
+  --category-bg: var(--category-economics-bg);
+  --category-text: var(--category-economics-text);
+  --category-bg-dark: var(--category-economics-bg-dark);
+  --category-text-dark: var(--category-economics-text-dark);
+}
+
+.category-badge-social {
+  --category-bg: var(--category-social-bg);
+  --category-text: var(--category-social-text);
+  --category-bg-dark: var(--category-social-bg-dark);
+  --category-text-dark: var(--category-social-text-dark);
+}
+
+.category-badge-philosophy {
+  --category-bg: var(--category-philosophy-bg);
+  --category-text: var(--category-philosophy-text);
+  --category-bg-dark: var(--category-philosophy-bg-dark);
+  --category-text-dark: var(--category-philosophy-text-dark);
+}
+
+.category-badge-international-relations {
+  --category-bg: var(--category-international-relations-bg);
+  --category-text: var(--category-international-relations-text);
+  --category-bg-dark: var(--category-international-relations-bg-dark);
+  --category-text-dark: var(--category-international-relations-text-dark);
+}
+
+.category-badge-law {
+  --category-bg: var(--category-law-bg);
+  --category-text: var(--category-law-text);
+  --category-bg-dark: var(--category-law-bg-dark);
+  --category-text-dark: var(--category-law-text-dark);
+}
+
+.category-badge-science-tech {
+  --category-bg: var(--category-science-tech-bg);
+  --category-text: var(--category-science-tech-text);
+  --category-bg-dark: var(--category-science-tech-bg-dark);
+  --category-text-dark: var(--category-science-tech-text-dark);
+}
+
+.category-badge-environment {
+  --category-bg: var(--category-environment-bg);
+  --category-text: var(--category-environment-text);
+  --category-bg-dark: var(--category-environment-bg-dark);
+  --category-text-dark: var(--category-environment-text-dark);
+}
+
+.category-badge-ethics {
+  --category-bg: var(--category-ethics-bg);
+  --category-text: var(--category-ethics-text);
+  --category-bg-dark: var(--category-ethics-bg-dark);
+  --category-text-dark: var(--category-ethics-text-dark);
+}
+
+.category-badge-religion {
+  --category-bg: var(--category-religion-bg);
+  --category-text: var(--category-religion-text);
+  --category-bg-dark: var(--category-religion-bg-dark);
+  --category-text-dark: var(--category-religion-text-dark);
+}
+
+.category-badge-feminism {
+  --category-bg: var(--category-feminism-bg);
+  --category-text: var(--category-feminism-text);
+  --category-bg-dark: var(--category-feminism-bg-dark);
+  --category-text-dark: var(--category-feminism-text-dark);
+}
+
+.category-badge-gender {
+  --category-bg: var(--category-gender-bg);
+  --category-text: var(--category-gender-text);
+  --category-bg-dark: var(--category-gender-bg-dark);
+  --category-text-dark: var(--category-gender-text-dark);
+}
+
+.category-badge-education {
+  --category-bg: var(--category-education-bg);
+  --category-text: var(--category-education-text);
+  --category-bg-dark: var(--category-education-bg-dark);
+  --category-text-dark: var(--category-education-text-dark);
+}
+
+.category-badge-culture {
+  --category-bg: var(--category-culture-bg);
+  --category-text: var(--category-culture-text);
+  --category-bg-dark: var(--category-culture-bg-dark);
+  --category-text-dark: var(--category-culture-text-dark);
+}
+
+.category-badge-media {
+  --category-bg: var(--category-media-bg);
+  --category-text: var(--category-media-text);
+  --category-bg-dark: var(--category-media-bg-dark);
+  --category-text-dark: var(--category-media-text-dark);
+}
+
+.category-badge-health {
+  --category-bg: var(--category-health-bg);
+  --category-text: var(--category-health-text);
+  --category-bg-dark: var(--category-health-bg-dark);
+  --category-text-dark: var(--category-health-text-dark);
+}
+
+.category-badge-technology {
+  --category-bg: var(--category-technology-bg);
+  --category-text: var(--category-technology-text);
+  --category-bg-dark: var(--category-technology-bg-dark);
+  --category-text-dark: var(--category-technology-text-dark);
+}
+
+.category-badge-science {
+  --category-bg: var(--category-science-bg);
+  --category-text: var(--category-science-text);
+  --category-bg-dark: var(--category-science-bg-dark);
+  --category-text-dark: var(--category-science-text-dark);
+}
+
+.category-badge-ai {
+  --category-bg: var(--category-ai-bg);
+  --category-text: var(--category-ai-text);
+  --category-bg-dark: var(--category-ai-bg-dark);
+  --category-text-dark: var(--category-ai-text-dark);
+}
+
+.category-badge-security {
+  --category-bg: var(--category-security-bg);
+  --category-text: var(--category-security-text);
+  --category-bg-dark: var(--category-security-bg-dark);
+  --category-text-dark: var(--category-security-text-dark);
+}
+
+.category-badge-war {
+  --category-bg: var(--category-war-bg);
+  --category-text: var(--category-war-text);
+  --category-bg-dark: var(--category-war-bg-dark);
+  --category-text-dark: var(--category-war-text-dark);
+}
+
+.category-badge-migration {
+  --category-bg: var(--category-migration-bg);
+  --category-text: var(--category-migration-text);
+  --category-bg-dark: var(--category-migration-bg-dark);
+  --category-text-dark: var(--category-migration-text-dark);
+}
+
+.category-badge-labor {
+  --category-bg: var(--category-labor-bg);
+  --category-text: var(--category-labor-text);
+  --category-bg-dark: var(--category-labor-bg-dark);
+  --category-text-dark: var(--category-labor-text-dark);
+}
+
+.category-badge-justice {
+  --category-bg: var(--category-justice-bg);
+  --category-text: var(--category-justice-text);
+  --category-bg-dark: var(--category-justice-bg-dark);
+  --category-text-dark: var(--category-justice-text-dark);
+}
+
+.category-badge-crime {
+  --category-bg: var(--category-crime-bg);
+  --category-text: var(--category-crime-text);
+  --category-bg-dark: var(--category-crime-bg-dark);
+  --category-text-dark: var(--category-crime-text-dark);
+}
+
+.category-badge-sports {
+  --category-bg: var(--category-sports-bg);
+  --category-text: var(--category-sports-text);
+  --category-bg-dark: var(--category-sports-bg-dark);
+  --category-text-dark: var(--category-sports-text-dark);
+}
+
+.category-badge-history {
+  --category-bg: var(--category-history-bg);
+  --category-text: var(--category-history-text);
+  --category-bg-dark: var(--category-history-bg-dark);
+  --category-text-dark: var(--category-history-text-dark);
+}
