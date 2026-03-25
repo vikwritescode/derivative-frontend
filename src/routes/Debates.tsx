@@ -215,7 +215,7 @@ const Debates = () => {
                   <TableCell>{rec["tournament"]}</TableCell>
                   <TableCell>{rec["position"]}</TableCell>
                   <TableCell>{rec["points"]}</TableCell>
-                  <TableCell>{rec["speaks"]}</TableCell>
+                  <TableCell>{Math.round(rec["speaks"] * 100) / 100}</TableCell>
                   <TableCell>
                     {rec["infoslide"] === "" ? (
                       <></>
