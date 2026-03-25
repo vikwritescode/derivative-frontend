@@ -199,13 +199,67 @@ const Tournaments = () => {
                 )}
               </TableHead>
 
-
               <TableHead
                 className="cursor-pointer hover:underline hover:text-secondary-foreground"
                 onClick={() => handleSort("rooms")}
               >
                 Rooms
                 {sortBy === "rooms" ? (
+                  ascending ? (
+                    <ChevronsDown className="inline w-auto size-10/24 pl-1" />
+                  ) : (
+                    <ChevronsUp className="inline w-auto size-10/24 pl-1" />
+                  )
+                ) : (
+                  <ChevronsDown
+                    color="0000000"
+                    className="inline w-auto size-10/24 pl-1"
+                  />
+                )}
+              </TableHead>
+              <TableHead
+                className="cursor-pointer hover:underline hover:text-secondary-foreground"
+                onClick={() => handleSort("format")}
+              >
+                Format
+                {sortBy === "format" ? (
+                  ascending ? (
+                    <ChevronsDown className="inline w-auto size-10/24 pl-1" />
+                  ) : (
+                    <ChevronsUp className="inline w-auto size-10/24 pl-1" />
+                  )
+                ) : (
+                  <ChevronsDown
+                    color="0000000"
+                    className="inline w-auto size-10/24 pl-1"
+                  />
+                )}
+              </TableHead>
+
+              <TableHead
+                className="cursor-pointer hover:underline hover:text-secondary-foreground"
+                onClick={() => handleSort("total_points")}
+              >
+                Points
+                {sortBy === "total_points" ? (
+                  ascending ? (
+                    <ChevronsDown className="inline w-auto size-10/24 pl-1" />
+                  ) : (
+                    <ChevronsUp className="inline w-auto size-10/24 pl-1" />
+                  )
+                ) : (
+                  <ChevronsDown
+                    color="0000000"
+                    className="inline w-auto size-10/24 pl-1"
+                  />
+                )}
+              </TableHead>
+              <TableHead
+                className="cursor-pointer hover:underline hover:text-secondary-foreground"
+                onClick={() => handleSort("avg_speaks")}
+              >
+                Avg Speaks
+                {sortBy === "avg_speaks" ? (
                   ascending ? (
                     <ChevronsDown className="inline w-auto size-10/24 pl-1" />
                   ) : (
@@ -240,7 +294,7 @@ const Tournaments = () => {
                     (new Date(a["date"]).getTime() -
                       new Date(b["date"]).getTime())
                   );
-                } else if (sortBy === "name") {
+                } else if (sortBy === "name" || sortBy === "format") {
                   const valA =
                     (a[sortBy] as string) === null ? "" : (a[sortBy] as string);
                   const valB =
@@ -263,6 +317,9 @@ const Tournaments = () => {
                   <TableCell>{rec["team_standing"]}</TableCell>
                   <TableCell>{rec["speaker_standing"]}</TableCell>
                   <TableCell>{rec["rooms"]}</TableCell>
+                  <TableCell>{rec["format"]}</TableCell>
+                  <TableCell>{rec["total_points"]}</TableCell>
+                  <TableCell>{Math.round(rec["avg_speaks"] * 100) / 100}</TableCell>
                   <TableCell>
                     <Dialog>
                       <DialogTrigger asChild>

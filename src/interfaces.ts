@@ -25,4 +25,7 @@ export interface TournamentRecord {
   rooms: number;
   date: string;
   partner: string;
+  format: string;
+  avg_speaks: number;
+  total_points: number;
 }
