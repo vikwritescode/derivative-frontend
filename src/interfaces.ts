@@ -15,6 +15,7 @@ export interface DebateRecord {
   format: string;
   has_reply: boolean;
   reply: number;
+  order: number;
 }
 
 export interface TournamentRecord {
