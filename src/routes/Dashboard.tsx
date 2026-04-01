@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/empty";
 import { Button } from "@/components/ui/button";
 import WSDCAverageSpeaksCard from "@/components/dashboard-cards/WSDCAverageSpeaksCard";
+import PositionOrderCard from "@/components/dashboard-cards/PositionOrderCard";
 // import { DebateRecord } from "@/interfaces";
 
 const Dashboard = () => {
@@ -37,6 +38,7 @@ const Dashboard = () => {
   // different arrays to pass to the cards
   const [bpData, setBpData] = useState<DebateRecord[]>([]);
   const [wsdcData, setWsdcData] = useState<DebateRecord[]>([]);
+  const [australsData, setAustralsData] = useState<DebateRecord[]>([]);
   const [error, setError] = useState(false);
   const [partnerSet, setPartnerSet] = useState<Set<string>>(new Set());
   const [partner, setPartner] = useState<string>("");
@@ -47,6 +49,7 @@ const Dashboard = () => {
   useEffect(() => {
     setBpData(debateArr.filter((x) => x.format === "BP"));
     setWsdcData(debateArr.filter((x) => x.format === "WSDC"));
+    setAustralsData(debateArr.filter((x) => x.format === "AUS"));
   }, [debateArr]);
 
   const handleFilterChange = (
@@ -214,7 +217,6 @@ const Dashboard = () => {
             </div>
 
             <div className="mt-4">
-              <h2 className="text-3xl sm:text-4xl font-semibold">Positions</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
                 <PieChartPositionCard
                   title="OG"
@@ -236,11 +238,33 @@ const Dashboard = () => {
                   debateData={bpData}
                   position="CO"
                 />
+                                <PositionOrderCard
+                  position="OG"
+                  firstSpeaker="PM"
+                  secondSpeaker="DPM"
+                  tournData={bpData}
+                />
+                <PositionOrderCard
+                  position="OO"
+                  firstSpeaker="LO"
+                  secondSpeaker="DLO"
+                  tournData={bpData}
+                />
+                <PositionOrderCard
+                  position="CG"
+                  firstSpeaker="MG"
+                  secondSpeaker="GW"
+                  tournData={bpData}
+                />
+                <PositionOrderCard
+                  position="CO"
+                  firstSpeaker="MO"
+                  secondSpeaker="OW"
+                  tournData={bpData}
+                />
               </div>
             </div>
-
             <div className="mt-6">
-              <h2 className="text-3xl sm:text-4xl font-semibold">Points</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
                 <PieChartPointCard title="1st" debateData={bpData} points={3} />
                 <PieChartPointCard title="2nd" debateData={bpData} points={2} />
@@ -250,6 +274,43 @@ const Dashboard = () => {
             </div>
             <div className="grid grid-cols-1 gap-6 mt-6">
               <TopicCard debateData={bpData} />
+            </div>
+          </div>
+          {/* Australs dashboard cards */}
+          <div hidden={australsData.length === 0} className="mt-6">
+            <h2 className="text-3xl sm:text-4xl font-semibold">Australs</h2>
+            <div className="mt-6">
+              <WSDCAverageSpeaksCard debateData={australsData} />
+            </div>
+            <div className="mt-6">
+              <PerformanceCard debateData={australsData} />
+            </div>
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <PieChartPointCard
+                title="Win"
+                debateData={australsData}
+                points={1}
+              />
+              <PieChartPointCard
+                title="Loss"
+                debateData={australsData}
+                points={0}
+              />
+            </div>
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <PieChartPositionCard
+                title="Affirmative"
+                debateData={australsData}
+                position="AFF"
+              />
+              <PieChartPositionCard
+                title="Negative"
+                debateData={australsData}
+                position="NEG"
+              />
+            </div>
+            <div className="mt-6">
+              <TopicCard debateData={australsData} />
             </div>
           </div>
           {/* WSDC dashboard cards */}

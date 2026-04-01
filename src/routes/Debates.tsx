@@ -16,7 +16,6 @@ import {
   Plus,
   ChevronsUp,
   ChevronsDown,
-  Cat,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -39,6 +38,11 @@ const Debates = () => {
   const [error, setError] = useState(false);
   const [loads, setLoads] = useState<boolean[]>([]);
   const [refresher, setRefresher] = useState(false);
+  const realName: Record<string, string> = {
+    "BP": "BP",
+    "WSDC": "WSDC",
+    "AUS": "Australs",
+  }
   useEffect(() => {
     const fetchStuff = async () => {
       const token = await user?.getIdToken();
@@ -301,7 +305,7 @@ const Debates = () => {
                   <TableCell>{rec["position"]}</TableCell>
                   <TableCell>{rec["points"]}</TableCell>
                   <TableCell>{Math.round(rec["speaks"] * 100) / 100}</TableCell>
-                  <TableCell>{rec["format"]}</TableCell>
+                  <TableCell>{realName[rec["format"]]}</TableCell>
                   <TableCell>
                     {rec["infoslide"] === "" ? (
                       <></>
@@ -312,7 +316,7 @@ const Debates = () => {
                             <InfoIcon />
                           </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="max-w-md max-h-[400px] overflow-y-auto">
+                        <PopoverContent className="max-w-md max-h-100 overflow-y-auto">
                           <p className="text-sm whitespace-pre-wrap">
                             {rec["infoslide"]}
                           </p>
@@ -327,7 +331,7 @@ const Debates = () => {
                           <InfoIcon />
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className="max-w-md max-h-[400px] overflow-y-auto">
+                      <PopoverContent className="max-w-md max-h-100 overflow-y-auto">
                         <p className="text-sm whitespace-pre-wrap">
                           {rec["motion"]}
                         </p>

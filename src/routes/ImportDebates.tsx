@@ -54,6 +54,7 @@ const ImportDebates = () => {
   const endpointReference: Record<string, string> = {
     "BP": `${import.meta.env.VITE_API_URL}/api/import`,
     "WSDC": `${import.meta.env.VITE_API_URL}/api/wsdc/import`,
+    "Australs": `${import.meta.env.VITE_API_URL}/api/australs/import`,
   }
 
   const handleSlugFetch = async () => {
@@ -331,7 +332,7 @@ const ImportDebates = () => {
             <div hidden={!fetchedNames} className="space-y-4">
               {nameLoad ? (
                 <div className="flex flex-col space-y-3">
-                  <Skeleton className="h-[125px] w-full rounded-xl" />
+                  <Skeleton className="h-31.25 w-full rounded-xl" />
                   <div className="space-y-2">
                     <Skeleton className="h-4 w-3/4" />
                     <Skeleton className="h-4 w-1/2" />
@@ -385,6 +386,7 @@ const ImportDebates = () => {
                       <SelectContent>
                         <SelectItem value="BP">BP</SelectItem>
                         <SelectItem value="WSDC">WSDC</SelectItem>
+                        <SelectItem value="Australs">Australs</SelectItem>
                       </SelectContent>
                     </Select>
                     <Button
