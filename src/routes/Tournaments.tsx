@@ -10,7 +10,13 @@ import {
 } from "@/components/ui/table";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Trash, AlertCircleIcon, ChevronsUp, ChevronsDown } from "lucide-react";
+import {
+  Trash,
+  AlertCircleIcon,
+  ChevronsUp,
+  ChevronsDown,
+  RefreshCw,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { type TournamentRecord } from "@/interfaces";
@@ -33,6 +39,7 @@ const Tournaments = () => {
   const [load, setLoad] = useState(true);
   const [error, setError] = useState(false);
   const [loads, setLoads] = useState<boolean[]>([]);
+  const [refreshLoads, setRefreshLoads] = useState<boolean[]>([]);
   const [refresher, setRefresher] = useState(false);
   useEffect(() => {
     const fetchStuff = async () => {
@@ -49,6 +56,7 @@ const Tournaments = () => {
         console.log(json);
         setTournamentArr(json);
         setLoads(Array(json.length).fill(false));
+        setRefreshLoads(Array(json.length).fill(false));
         setLoad(false);
       } catch (err) {
         setError(true);
@@ -58,12 +66,12 @@ const Tournaments = () => {
     fetchStuff();
   }, [refresher]);
 
-  const handleDeleteClick = async (x: number) => {
+  const handleDeleteClick = async (rowIndex: number, tournamentId: number) => {
     try {
-      setLoads((prev) => prev.map((v, i) => (i === x ? true : v)));
+      setLoads((prev) => prev.map((v, i) => (i === rowIndex ? true : v)));
       const token = await user?.getIdToken();
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/usertournaments/delete/${x}`,
+        `${import.meta.env.VITE_API_URL}/api/usertournaments/delete/${tournamentId}`,
         {
           method: "DELETE",
           headers: {
@@ -82,7 +90,40 @@ const Tournaments = () => {
       console.error(err);
     } finally {
       setLoad(false);
-      setLoads((prev) => prev.map((v, i) => (i === x ? false : v)));
+      setLoads((prev) => prev.map((v, i) => (i === rowIndex ? false : v)));
+    }
+  };
+
+  const handleRefreshClick = async (
+    rowIndex: number,
+    tournamentId: number,
+  ) => {
+    try {
+      setRefreshLoads((prev) => prev.map((v, i) => (i === rowIndex ? true : v)));
+      const token = await user?.getIdToken();
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/refresh/${tournamentId}`,
+        {
+          method: "POST",
+          headers: {
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+        },
+      );
+      if (!response.ok) {
+        console.log(load);
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      const json = await response.json();
+      console.log(json);
+      setRefresher((prev) => !prev);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoad(false);
+      setRefreshLoads((prev) =>
+        prev.map((v, i) => (i === rowIndex ? false : v)),
+      );
     }
   };
 
@@ -319,13 +360,15 @@ const Tournaments = () => {
                   <TableCell>{rec["rooms"]}</TableCell>
                   <TableCell>{rec["format"]}</TableCell>
                   <TableCell>{rec["total_points"]}</TableCell>
-                  <TableCell>{Math.round(rec["avg_speaks"] * 100) / 100}</TableCell>
+                  <TableCell>
+                    {Math.round(rec["avg_speaks"] * 100) / 100}
+                  </TableCell>
                   <TableCell>
                     <Dialog>
                       <DialogTrigger asChild>
                         {
                           <Button
-                            disabled={loads[i]}
+                            disabled={loads[i] || refreshLoads[i]}
                             variant="ghost"
                             size="icon"
                             className="text-destructive hover:text-destructive hover:bg-destructive/10"
@@ -347,7 +390,6 @@ const Tournaments = () => {
                             <Button
                               className="w-full sm:w-auto"
                               variant="outline"
-                              onClick={() => handleDeleteClick(rec["id"])}
                               disabled={loads[i]}
                             >
                               Cancel
@@ -357,7 +399,7 @@ const Tournaments = () => {
                             <Button
                               className="w-full sm:w-auto"
                               variant="destructive"
-                              onClick={() => handleDeleteClick(rec["id"])}
+                              onClick={() => handleDeleteClick(i, rec["id"])}
                               disabled={loads[i]}
                             >
                               Delete
@@ -366,6 +408,21 @@ const Tournaments = () => {
                         </div>
                       </DialogContent>
                     </Dialog>
+                  </TableCell>
+
+                  <TableCell>
+                    <Button
+                      disabled={refreshLoads[i] || loads[i]}
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handleRefreshClick(i, rec["id"])}
+                    >
+                      {refreshLoads[i] ? (
+                        <Spinner />
+                      ) : (
+                        <RefreshCw />
+                      )}
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
