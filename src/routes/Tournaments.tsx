@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { type TournamentRecord } from "@/interfaces";
+import { type DebateResponse, type TournamentRecord } from "@/interfaces";
 import { Plus } from "lucide-react";
 import {
   Dialog,
@@ -33,9 +33,20 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const Tournaments = () => {
+  type SortKey =
+    | "date"
+    | "name"
+    | "team_standing"
+    | "speaker_standing"
+    | "rooms"
+    | "format"
+    | "total_points"
+    | "avg_speaks";
+
   const navigate = useNavigate();
   const { user } = useContext(Context);
-  const [tournamentArr, setTournamentArr] = useState([]);
+  const [tournamentArr, setTournamentArr] = useState<TournamentRecord[]>([]);
+  const [dated, setDated] = useState(new Set<number>());
   const [load, setLoad] = useState(true);
   const [error, setError] = useState(false);
   const [loads, setLoads] = useState<boolean[]>([]);
@@ -52,7 +63,13 @@ const Tournaments = () => {
             headers: { Authorization: `Bearer ${token}` },
           },
         );
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
         const json = await response.json();
+        if (!Array.isArray(json)) {
+          throw new Error("Invalid tournaments payload");
+        }
         console.log(json);
         setTournamentArr(json);
         setLoads(Array(json.length).fill(false));
@@ -63,9 +80,73 @@ const Tournaments = () => {
         console.error(err);
       }
     };
+    const fetchDebates = async () => {
+      const token = await user?.getIdToken();
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/get`,
+          {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        const json: DebateResponse = await response.json();
+        if (!json?.debates || !Array.isArray(json.debates)) {
+          throw new Error("Invalid debates payload");
+        }
+        // find outdated records to refresh
+        const outdated = new Set<number>();
+        json.debates.forEach((debate) => {
+          const tournId = parseInt(debate.tournament_id);
+          if (
+            debate.format === "BP" &&
+            (debate.partner == null || debate.order === 0)
+          ) {
+            outdated.add(tournId);
+          }
+        });
+        console.log(outdated);
+        setDated(outdated);
+        setLoad(false);
+      } catch (err) {
+        setError(true);
+        console.error(err);
+      }
+    };
     fetchStuff();
+    fetchDebates();
   }, [refresher]);
 
+  const handleRefreshAllClick = async () => {
+    try {
+      setLoad(true);
+      const token = await user?.getIdToken();
+      dated.forEach(async (tournId) => {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/refresh/${tournId}`,
+          {
+            method: "POST",
+            headers: {
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            },
+          },
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        const json = await response.json();
+        console.log(json);
+      });
+      setRefresher((prev) => !prev);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoad(false);
+    }
+      }
   const handleDeleteClick = async (rowIndex: number, tournamentId: number) => {
     try {
       setLoads((prev) => prev.map((v, i) => (i === rowIndex ? true : v)));
@@ -94,12 +175,11 @@ const Tournaments = () => {
     }
   };
 
-  const handleRefreshClick = async (
-    rowIndex: number,
-    tournamentId: number,
-  ) => {
+  const handleRefreshClick = async (rowIndex: number, tournamentId: number) => {
     try {
-      setRefreshLoads((prev) => prev.map((v, i) => (i === rowIndex ? true : v)));
+      setRefreshLoads((prev) =>
+        prev.map((v, i) => (i === rowIndex ? true : v)),
+      );
       const token = await user?.getIdToken();
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/refresh/${tournamentId}`,
@@ -127,10 +207,10 @@ const Tournaments = () => {
     }
   };
 
-  const [sortBy, setSortBy] = useState("date");
+  const [sortBy, setSortBy] = useState<SortKey>("date");
   const [ascending, setAscending] = useState(false);
 
-  const handleSort = (ind: string) => {
+  const handleSort = (ind: SortKey) => {
     if (ind === sortBy) {
       // flip ascending/descending
       setAscending((prev) => !prev);
@@ -161,6 +241,13 @@ const Tournaments = () => {
       <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold">
         Your Tournaments
       </h1>
+      <Alert variant="default" className="mt-6" onClick={handleRefreshAllClick} hidden={dated.size === 0}>
+        <AlertCircleIcon className="h-4 w-4" />
+        <AlertTitle className="text-left mb-1">
+          Outdated Tournaments
+        </AlertTitle>
+        <AlertDescription>Some of your tournament records are outdated. Click this message to reimport and take advantage of newer features.</AlertDescription>
+      </Alert>
       <div className="py-4">
         <Table>
           <TableHeader>
@@ -326,30 +413,46 @@ const Tournaments = () => {
             </TableRow>
           </TableHeader>
           <TableBody className="text-left">
-            {tournamentArr
+            {[...tournamentArr]
               .sort((a, b) => {
                 const mult = ascending ? 1 : -1;
-                if (sortBy == "date") {
-                  return (
-                    mult *
-                    (new Date(a["date"]).getTime() -
-                      new Date(b["date"]).getTime())
-                  );
-                } else if (sortBy === "name" || sortBy === "format") {
-                  const valA =
-                    (a[sortBy] as string) === null ? "" : (a[sortBy] as string);
-                  const valB =
-                    (b[sortBy] as string) === null ? "" : (b[sortBy] as string);
-                  return (
-                    mult *
-                    valA.localeCompare(valB, undefined, { numeric: true })
-                  );
-                } else if (sortBy === "date") {
-                  const valA = new Date(a[sortBy]);
-                  const valB = new Date(b[sortBy]);
-                  return mult * (valA.getDate() - valB.getDate());
+                switch (sortBy) {
+                  case "date":
+                    return (
+                      mult *
+                      (new Date(a.date).getTime() - new Date(b.date).getTime())
+                    );
+                  case "name":
+                    return (
+                      mult *
+                      (a.name ?? "").localeCompare(b.name ?? "", undefined, {
+                        numeric: true,
+                      })
+                    );
+                  case "format":
+                    return (
+                      mult *
+                      (a.format ?? "").localeCompare(
+                        b.format ?? "",
+                        undefined,
+                        {
+                          numeric: true,
+                        },
+                      )
+                    );
+                  case "team_standing":
+                    return mult * (a.team_standing - b.team_standing);
+                  case "speaker_standing":
+                    return mult * (a.speaker_standing - b.speaker_standing);
+                  case "rooms":
+                    return mult * (a.rooms - b.rooms);
+                  case "total_points":
+                    return mult * (a.total_points - b.total_points);
+                  case "avg_speaks":
+                    return mult * (a.avg_speaks - b.avg_speaks);
+                  default:
+                    return 0;
                 }
-                return mult * (a[sortBy] - b[sortBy]);
               })
               .map((rec: TournamentRecord, i) => (
                 <TableRow>
@@ -413,15 +516,12 @@ const Tournaments = () => {
                   <TableCell>
                     <Button
                       disabled={refreshLoads[i] || loads[i]}
-                      variant="ghost"
+                      variant="outline"
+                      hidden={!dated.has(rec["id"])}
                       size="icon"
                       onClick={() => handleRefreshClick(i, rec["id"])}
                     >
-                      {refreshLoads[i] ? (
-                        <Spinner />
-                      ) : (
-                        <RefreshCw />
-                      )}
+                      {refreshLoads[i] ? <Spinner /> : <RefreshCw />}
                     </Button>
                   </TableCell>
                 </TableRow>

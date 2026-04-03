@@ -30,3 +30,7 @@ export interface TournamentRecord {
   avg_speaks: number;
   total_points: number;
 }
+
+export interface DebateResponse {
+  debates: DebateRecord[];
+}
