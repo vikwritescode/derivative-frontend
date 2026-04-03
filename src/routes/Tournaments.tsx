@@ -124,6 +124,7 @@ const Tournaments = () => {
     try {
       setLoad(true);
       const token = await user?.getIdToken();
+      setRefreshLoads(Array(tournamentArr.length).fill(true));
       dated.forEach(async (tournId) => {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/api/refresh/${tournId}`,
@@ -246,7 +247,7 @@ const Tournaments = () => {
         <AlertTitle className="text-left mb-1">
           Outdated Tournaments
         </AlertTitle>
-        <AlertDescription>Some of your tournament records are outdated. Click this message to reimport and take advantage of newer features.</AlertDescription>
+        <AlertDescription>Some of your tournament records are outdated. Click this message to automatically reimport tabs and take advantage of newer features where possible.</AlertDescription>
       </Alert>
       <div className="py-4">
         <Table>
@@ -515,7 +516,7 @@ const Tournaments = () => {
 
                   <TableCell>
                     <Button
-                      disabled={refreshLoads[i] || loads[i]}
+                      disabled={refreshLoads[i] || loads[i] || (rec["tab_url"] == null)}
                       variant="outline"
                       hidden={!dated.has(rec["id"])}
                       size="icon"
