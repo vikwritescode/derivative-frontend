@@ -31,6 +31,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useNavigate } from "react-router-dom";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const Tournaments = () => {
   type SortKey =
@@ -47,6 +52,7 @@ const Tournaments = () => {
   const { user } = useContext(Context);
   const [tournamentArr, setTournamentArr] = useState<TournamentRecord[]>([]);
   const [dated, setDated] = useState(new Set<number>());
+  const [dead, setDead] = useState(new Set<number>());
   const [load, setLoad] = useState(true);
   const [error, setError] = useState(false);
   const [loads, setLoads] = useState<boolean[]>([]);
@@ -72,6 +78,14 @@ const Tournaments = () => {
         }
         console.log(json);
         setTournamentArr(json);
+        const deadSet = new Set<number>();
+        json.forEach((tourn: TournamentRecord) => {
+          if (!tourn.tab_url) {
+            deadSet.add(tourn.id);
+          }
+        });
+        setDead(deadSet);
+
         setLoads(Array(json.length).fill(false));
         setRefreshLoads(Array(json.length).fill(false));
         setLoad(false);
@@ -147,7 +161,7 @@ const Tournaments = () => {
     } finally {
       setLoad(false);
     }
-      }
+  };
   const handleDeleteClick = async (rowIndex: number, tournamentId: number) => {
     try {
       setLoads((prev) => prev.map((v, i) => (i === rowIndex ? true : v)));
@@ -210,6 +224,7 @@ const Tournaments = () => {
 
   const [sortBy, setSortBy] = useState<SortKey>("date");
   const [ascending, setAscending] = useState(false);
+  const refreshableIds = [...dated].filter((id) => !dead.has(id));
 
   const handleSort = (ind: SortKey) => {
     if (ind === sortBy) {
@@ -242,12 +257,19 @@ const Tournaments = () => {
       <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold">
         Your Tournaments
       </h1>
-      <Alert variant="default" className="mt-6" onClick={handleRefreshAllClick} hidden={dated.size === 0}>
+      <Alert
+        variant="default"
+        className="mt-6"
+        onClick={handleRefreshAllClick}
+        hidden={refreshableIds.length === 0}
+      >
         <AlertCircleIcon className="h-4 w-4" />
-        <AlertTitle className="text-left mb-1">
-          Outdated Tournaments
-        </AlertTitle>
-        <AlertDescription>Some of your tournament records are outdated. Click this message to automatically reimport tabs and take advantage of newer features where possible.</AlertDescription>
+        <AlertTitle className="text-left mb-1">Outdated Tournaments</AlertTitle>
+        <AlertDescription>
+          Some of your tournament records are outdated. Click this message to
+          automatically reimport tabs and take advantage of newer features where
+          possible.
+        </AlertDescription>
       </Alert>
       <div className="py-4">
         <Table>
@@ -515,15 +537,36 @@ const Tournaments = () => {
                   </TableCell>
 
                   <TableCell>
-                    <Button
-                      disabled={refreshLoads[i] || loads[i] || (rec["tab_url"] == null)}
-                      variant="outline"
-                      hidden={!dated.has(rec["id"])}
-                      size="icon"
-                      onClick={() => handleRefreshClick(i, rec["id"])}
-                    >
-                      {refreshLoads[i] ? <Spinner /> : <RefreshCw />}
-                    </Button>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <span className="inline-flex">
+                          <Button
+                            disabled={
+                              refreshLoads[i] || loads[i] || dead.has(rec["id"])
+                            }
+                            variant="outline"
+                            hidden={!dated.has(rec["id"])}
+                            size="icon"
+                            onClick={() => handleRefreshClick(i, rec["id"])}
+                          >
+                            {dead.has(rec["id"]) ? (
+                              <AlertCircleIcon />
+                            ) : refreshLoads[i] ? (
+                              <Spinner />
+                            ) : (
+                              <RefreshCw />
+                            )}
+                          </Button>
+                        </span>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        {dead.has(rec["id"]) ? (
+                          <p>Invalid Tournament. Import again.</p>
+                        ) : (
+                          <p>Refresh Tournament Data</p>
+                        )}
+                      </TooltipContent>
+                    </Tooltip>
                   </TableCell>
                 </TableRow>
               ))}
