@@ -60,8 +60,8 @@ const PositionOrderCard = ({
 
     const firstSpeakerAvgPoints = firstSpeakerCount === 0 ? 0 : firstSpeakerPoints / firstSpeakerCount;
     const secondSpeakerAvgPoints = secondSpeakerCount === 0 ? 0 : secondSpeakerPoints / secondSpeakerCount;
-    const firstSpeakerAvgSpeaks = firstSpeakerSpeaks[1] === 0 ? 0 : firstSpeakerSpeaks[0] / firstSpeakerSpeaks[1];
-    const secondSpeakerAvgSpeaks = secondSpeakerSpeaks[1] === 0 ? 0 : secondSpeakerSpeaks[0] / secondSpeakerSpeaks[1];
+    const firstSpeakerAvgSpeaks = firstSpeakerCount === 0 ? 0 : firstSpeakerSpeaks[0] / firstSpeakerCount;
+    const secondSpeakerAvgSpeaks = secondSpeakerCount === 0 ? 0 : secondSpeakerSpeaks[0] / secondSpeakerCount;
 
   return (
     <Card>

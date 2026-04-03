@@ -238,7 +238,7 @@ const Dashboard = () => {
                   debateData={bpData}
                   position="CO"
                 />
-                                <PositionOrderCard
+                <PositionOrderCard
                   position="OG"
                   firstSpeaker="PM"
                   secondSpeaker="DPM"
