@@ -52,7 +52,7 @@ const ImportDebates = () => {
 
   // object for endpoints
   const endpointReference: Record<string, string> = {
-    "BP": `${import.meta.env.VITE_API_URL}/api/import`,
+    "BP": `${import.meta.env.VITE_API_URL}/api/tab/import`,
     "WSDC": `${import.meta.env.VITE_API_URL}/api/wsdc/import`,
     "Australs": `${import.meta.env.VITE_API_URL}/api/australs/import`,
   }
@@ -66,7 +66,7 @@ const ImportDebates = () => {
       const response = await fetch(
         `${
           import.meta.env.VITE_API_URL
-        }/api/tournaments?url=${encodeURIComponent(url)}`,
+        }/api/tab/tournaments?url=${encodeURIComponent(url)}`,
         {
           method: "GET",
           headers: {
@@ -108,7 +108,7 @@ const ImportDebates = () => {
       setNameError(false);
       // fetch speaker
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/speakers?url=${encodeURIComponent(
+        `${import.meta.env.VITE_API_URL}/api/tab/speakers?url=${encodeURIComponent(
           url,
         )}&slug=${encodeURIComponent(
           selectedSlug,
@@ -128,7 +128,7 @@ const ImportDebates = () => {
 
       // fetch date
       const dateResponse = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/startdate?url=${encodeURIComponent(
+        `${import.meta.env.VITE_API_URL}/api/tab/startdate?url=${encodeURIComponent(
           url,
         )}&slug=${encodeURIComponent(selectedSlug)}`,
         {

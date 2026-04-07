@@ -29,4 +29,9 @@ export interface TournamentRecord {
   format: string;
   avg_speaks: number;
   total_points: number;
+  tab_url: string;
+}
+
+export interface DebateResponse {
+  debates: DebateRecord[];
 }

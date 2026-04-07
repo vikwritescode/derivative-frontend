@@ -48,7 +48,7 @@ const Debates = () => {
       const token = await user?.getIdToken();
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/get`,
+          `${import.meta.env.VITE_API_URL}/api/debates/get`,
           {
             method: "GET",
             headers: { Authorization: `Bearer ${token}` },
@@ -72,7 +72,7 @@ const Debates = () => {
       setLoads((prev) => prev.map((v, i) => (i === x ? true : v)));
       const token = await user?.getIdToken();
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/delete/${x}`,
+        `${import.meta.env.VITE_API_URL}/api/debates/delete/${x}`,
         {
           method: "DELETE",
           headers: {
