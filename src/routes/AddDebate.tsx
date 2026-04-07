@@ -103,7 +103,7 @@ const AddDebate = () => {
         setError(false);
         setDataValidError(false);
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/add`,
+          `${import.meta.env.VITE_API_URL}/api/debates/add`,
           {
             method: "POST",
             headers: {

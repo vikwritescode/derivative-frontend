@@ -98,7 +98,7 @@ const Tournaments = () => {
       const token = await user?.getIdToken();
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/get`,
+          `${import.meta.env.VITE_API_URL}/api/debates/get`,
           {
             method: "GET",
             headers: { Authorization: `Bearer ${token}` },
