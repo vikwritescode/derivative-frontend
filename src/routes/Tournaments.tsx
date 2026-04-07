@@ -141,7 +141,7 @@ const Tournaments = () => {
       setRefreshLoads(Array(tournamentArr.length).fill(true));
       dated.forEach(async (tournId) => {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/refresh/${tournId}`,
+          `${import.meta.env.VITE_API_URL}/api/tab/refresh/${tournId}`,
           {
             method: "POST",
             headers: {
@@ -197,7 +197,7 @@ const Tournaments = () => {
       );
       const token = await user?.getIdToken();
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/refresh/${tournamentId}`,
+        `${import.meta.env.VITE_API_URL}/api/tab/refresh/${tournamentId}`,
         {
           method: "POST",
           headers: {
