@@ -1,5 +1,6 @@
 <div align="center">
 <img width=200 src="public/derivative.svg">
+
 # Derivative: An Open Source BP Debate Tracker
 </div>
 Currently live on [derivative.lol](https://derivative.lol). This is the front-end of a tracker designed for British Parliamentary debating, allowing users record and import results, view their history, and access summary statistics. The back-end is visible [here](https://github.com/vikwritescode/bp-debate-tracker).
