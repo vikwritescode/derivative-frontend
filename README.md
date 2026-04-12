@@ -1,5 +1,5 @@
 <div align="center">
-<img width=200 src="public/derivative.svg">
+<img width=200 src="public/derivative.svg" onClick="https://derivative.lol">
 
 # Derivative: An Open Source BP Debate Tracker
 </div>
