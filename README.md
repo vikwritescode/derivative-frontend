@@ -1,7 +1,6 @@
 <div align="center">
-<a href="https://derivative.lol>
-  <img width=200 src="public/derivative.svg">
-</a>
+
+<img width=200 src="public/derivative.svg">
 
 # Derivative: An Open Source BP Debate Tracker
 
