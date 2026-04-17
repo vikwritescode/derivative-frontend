@@ -16,6 +16,7 @@ import {
   Plus,
   ChevronsUp,
   ChevronsDown,
+  PencilIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -39,10 +40,10 @@ const Debates = () => {
   const [loads, setLoads] = useState<boolean[]>([]);
   const [refresher, setRefresher] = useState(false);
   const realName: Record<string, string> = {
-    "BP": "BP",
-    "WSDC": "WSDC",
-    "AUS": "Australs",
-  }
+    BP: "BP",
+    WSDC: "WSDC",
+    AUS: "Australs",
+  };
   useEffect(() => {
     const fetchStuff = async () => {
       const token = await user?.getIdToken();
@@ -93,6 +94,10 @@ const Debates = () => {
       setLoad(false);
       setLoads((prev) => prev.map((v, i) => (i === x ? false : v)));
     }
+  };
+
+  const handleEditClick = async (x: number) => {
+    navigate(`/debates/${x}`);
   };
 
   const [sortBy, setSortBy] = useState("date");
@@ -244,6 +249,8 @@ const Debates = () => {
               <TableHead>Info Slide</TableHead>
               <TableHead>Motion</TableHead>
               <TableHead>Type</TableHead>
+              {/* dummy tablehead */}
+              <TableHead></TableHead>
               <TableHead>
                 <Button
                   size="icon"
@@ -347,6 +354,13 @@ const Debates = () => {
                         ))}
                     </div>
                   </TableCell>
+
+                  <TableCell onClick={() => handleEditClick(rec["id"])}>
+                    <Button disabled={loads[i]} variant="ghost" size="icon">
+                      {loads[i] ? <Spinner /> : <PencilIcon />}
+                    </Button>
+                  </TableCell>
+
                   <TableCell onClick={() => handleDeleteClick(rec["id"])}>
                     <Button
                       disabled={loads[i]}

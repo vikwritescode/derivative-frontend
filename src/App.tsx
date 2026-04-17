@@ -9,6 +9,7 @@ import Layout from "./routes/Layout";
 import Debates from "./routes/Debates";
 import ImportDebates from "./routes/ImportDebates";
 import AddDebate from "./routes/AddDebate";
+import ModifyDebate from "./routes/ModifyDebate";
 import Help from "./routes/Help";
 import { ThemeProvider } from "@/components/theme-provider";
 import AddTournaments from "./routes/AddTournaments";
@@ -92,6 +93,14 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      {
+        path: "debates/:id",
+        element: (
+          <ProtectedRoute>
+            <ModifyDebate />
+          </ProtectedRoute>
+        ),
+      }
     ],
   },
 ]);
