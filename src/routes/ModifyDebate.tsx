@@ -32,9 +32,38 @@ import {
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import EditCategoryBadge from "@/components/EditCategoryBadge";
+import AddCategoryBadge from "@/components/AddCategoryBadge";
 const ModifyDebate = () => {
+  const AVAILABLE_CATEGORIES = new Set([
+    "Economics",
+    "International Relations",
+    "Africa",
+    "Art",
+    "Asia",
+    "Children",
+    "Cities",
+    "Criminal Justice",
+    "Culture",
+    "Feminism",
+    "Latin America",
+    "Law",
+    "LGBTQ+",
+    "Media",
+    "Medical",
+    "Middle East",
+    "Military",
+    "Minority Communities",
+    "Philosophy",
+    "Politics",
+    "Religion",
+    "Romance/Sexuality",
+    "Science/Technology",
+    "Social Justice",
+    "Sports",
+  ]);
   const { id } = useParams<{ id: string }>();
   const [cats, setCats] = useState<Array<string>>([]);
+  const [otherCats, setOtherCats] = useState<Array<string>>([]);
   const [date, setDate] = useState<Date>(new Date());
   const [order, setOrder] = useState(0);
   const [hasReply, setHasReply] = useState(false);
@@ -108,6 +137,11 @@ const ModifyDebate = () => {
         setInfoSlide(data.infoslide);
         setMotion(data.motion);
         setCats(data.categories);
+        const catSet = new Set(data.categories);
+        setOtherCats(
+          Array.from(AVAILABLE_CATEGORIES).filter((cat) => !catSet.has(cat)),
+        );
+
         setOrder(data.order);
         setHasReply(data.has_reply);
         setReply(data.reply);
@@ -161,6 +195,13 @@ const ModifyDebate = () => {
 
   const dropCat = (cat: string) => {
     setCats((prev) => prev.filter((x) => x !== cat));
+    setOtherCats((prev) => [...prev, cat]);
+    setModified(true);
+  };
+
+  const addCat = (cat: string) => {
+    setCats((prev) => [...prev, cat]);
+    setOtherCats((prev) => prev.filter((x) => x !== cat));
     setModified(true);
   };
 
@@ -463,6 +504,25 @@ const ModifyDebate = () => {
                 ) : (
                   <span className="text-sm text-muted-foreground">
                     No categories added
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <h3 className="text-sm font-medium">Other Categories</h3>
+              <h4 className="text-sm text-muted-foreground">Click to add</h4>
+              <div className="flex flex-wrap gap-2 border rounded-md p-3 h-48 overflow-y-auto bg-muted/20">
+                {otherCats.length > 0 ? (
+                  otherCats.map((cat) => (
+                    <AddCategoryBadge
+                      key={cat}
+                      category={cat}
+                      onAdd={() => addCat(cat)}
+                    />
+                  ))
+                ) : (
+                  <span className="text-sm text-muted-foreground">
+                    No categories left!
                   </span>
                 )}
               </div>
