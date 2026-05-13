@@ -37,6 +37,7 @@ const Debates = () => {
   const [debateArr, setDebateArr] = useState([]);
   const [load, setLoad] = useState(true);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [loads, setLoads] = useState<boolean[]>([]);
   const [refresher, setRefresher] = useState(false);
   const realName: Record<string, string> = {
@@ -55,6 +56,15 @@ const Debates = () => {
             headers: { Authorization: `Bearer ${token}` },
           },
         );
+        if (!response.ok) {
+          if (response.status === 401) {
+            setErrorMessage("Unauthorized. Please log in again.");
+          } else if (response.status === 403) {
+            setErrorMessage(`Please verify your email to use Derivative.`);
+          }
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
         const json = await response.json();
         console.log(json);
         setDebateArr(json.debates);
@@ -123,7 +133,7 @@ const Debates = () => {
           <AlertTitle className="text-left mb-1">
             Error retrieving debate history
           </AlertTitle>
-          <AlertDescription>Please reload the page.</AlertDescription>
+          <AlertDescription>{(errorMessage == "") ? "Please reload the page." : errorMessage}</AlertDescription>
         </Alert>
       </div>
     );
