@@ -15,6 +15,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import AddTournaments from "./routes/AddTournaments";
 import Tournaments from "./routes/Tournaments";
 import UnprotectedRoute from "./routes/UnprotectedRoute";
+import { Toaster } from "@/components/ui/sonner";
 
 const router = createBrowserRouter([
   {
@@ -110,6 +111,7 @@ function App() {
     <ThemeProvider>
       <AuthContext>
         <RouterProvider router={router} />
+        <Toaster position="top-center" />
       </AuthContext>
     </ThemeProvider>
   );
