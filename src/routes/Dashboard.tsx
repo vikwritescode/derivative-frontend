@@ -40,6 +40,7 @@ const Dashboard = () => {
   const [wsdcData, setWsdcData] = useState<DebateRecord[]>([]);
   const [australsData, setAustralsData] = useState<DebateRecord[]>([]);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [partnerSet, setPartnerSet] = useState<Set<string>>(new Set());
   const [partner, setPartner] = useState<string>("");
   const [timeCutoff, setTimeCutoff] = useState<Date>(new Date(0));
@@ -100,6 +101,11 @@ const Dashboard = () => {
           },
         );
         if (!response.ok) {
+          if (response.status === 401) {
+            setErrorMessage("Unauthorized. Please log in again.");
+          } else if (response.status === 403) {
+            setErrorMessage(`Please verify your email to use Derivative.`);
+          }
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
         const json = await response.json();
@@ -138,7 +144,7 @@ const Dashboard = () => {
           <AlertTitle className="text-left mb-1">
             Error fetching data
           </AlertTitle>
-          <AlertDescription>Please reload the page.</AlertDescription>
+          <AlertDescription>{(errorMessage == "") ? "Please reload the page." : errorMessage}</AlertDescription>
         </Alert>
       </div>
     );
