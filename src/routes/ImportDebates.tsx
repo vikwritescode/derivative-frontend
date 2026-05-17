@@ -155,6 +155,11 @@ const ImportDebates = () => {
       const json = await response.json();
       console.log(json);
 
+
+      // if no names then error
+      if (json.length === 0) {
+        throw new Error("No speakers found with that name.");
+      }
       // set name related stuff
       setNames(json);
       setSelectedName(json[0].url);
