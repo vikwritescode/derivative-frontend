@@ -155,7 +155,7 @@ const SpeaksByBracketCard = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>
+        <CardTitle className="text-4xl">
           Speaks by Bracket
         </CardTitle>
         <CardDescription>
