@@ -234,7 +234,9 @@ function ChartTooltipContent({
                       </div>
                       {item.value && (
                         <span className="text-foreground font-mono font-medium tabular-nums">
-                          {item.value.toLocaleString()}
+                          {item.dataKey === "timestamp"
+                            ? new Date(Number(item.value)).toLocaleDateString()
+                            : item.value.toLocaleString()}
                         </span>
                       )}
                     </div>
