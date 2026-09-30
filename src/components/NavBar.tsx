@@ -49,7 +49,7 @@ const NavBar = () => {
                 <NavigationMenuLink asChild>
                   <NavLink
                     to="/"
-                    className="whitespace-nowrap overflow-hidden text-ellipsis"
+                    className="whitespace-nowrap overflow-hidden text-center text-ellipsis"
                   >
                     Dashboard
                   </NavLink>
@@ -61,8 +61,19 @@ const NavBar = () => {
                   <NavigationMenuItem>
                     <NavigationMenuLink asChild>
                       <NavLink
+                        to="/speaks"
+                        className="whitespace-nowrap overflow-hidden text-center text-ellipsis"
+                      >
+                        Speaks
+                      </NavLink>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                  <NavigationMenuItem></NavigationMenuItem>
+                  <NavigationMenuItem>
+                    <NavigationMenuLink asChild>
+                      <NavLink
                         to="/debates"
-                        className="whitespace-nowrap overflow-hidden text-ellipsis"
+                        className="whitespace-nowrap overflow-hidden text-center text-ellipsis"
                       >
                         Debates
                       </NavLink>
@@ -72,7 +83,7 @@ const NavBar = () => {
                     <NavigationMenuLink asChild>
                       <NavLink
                         to="/tournaments"
-                        className="whitespace-nowrap overflow-hidden text-ellipssis"
+                        className="whitespace-nowrap overflow-hidden text-center text-ellipssis"
                       >
                         Tournaments
                       </NavLink>
@@ -82,7 +93,7 @@ const NavBar = () => {
                     <NavigationMenuLink asChild>
                       <NavLink
                         to="/import"
-                        className="whitespace-nowrap overflow-hidden text-ellipssis"
+                        className="whitespace-nowrap overflow-hidden text-center text-ellipssis"
                       >
                         Import Tab
                       </NavLink>
@@ -94,7 +105,11 @@ const NavBar = () => {
           </NavigationMenu>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="whitespace-nowrap">
+              <Button
+                variant="outline"
+                size="sm"
+                className="whitespace-nowrap text-center"
+              >
                 {user ? user.email : "Account"}
               </Button>
             </DropdownMenuTrigger>
@@ -139,6 +154,14 @@ const NavBar = () => {
                     className="text-base font-medium hover:text-primary"
                   >
                     Dashboard
+                  </NavLink>
+                </SheetClose>
+                <SheetClose asChild>
+                  <NavLink
+                    to="/speaks"
+                    className="text-base font-medium hover:text-primary"
+                  >
+                    Speaks
                   </NavLink>
                 </SheetClose>
                 <SheetClose asChild>

@@ -13,6 +13,7 @@ import ModifyDebate from "./routes/ModifyDebate";
 import Help from "./routes/Help";
 import { ThemeProvider } from "@/components/theme-provider";
 import AddTournaments from "./routes/AddTournaments";
+import Speaks from "./routes/Speaks";
 import Tournaments from "./routes/Tournaments";
 import UnprotectedRoute from "./routes/UnprotectedRoute";
 import { Toaster } from "@/components/ui/sonner";
@@ -99,6 +100,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <ModifyDebate />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "speaks",
+        element: (
+          <ProtectedRoute>
+            <Speaks />
           </ProtectedRoute>
         ),
       }
