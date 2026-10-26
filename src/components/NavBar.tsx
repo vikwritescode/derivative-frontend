@@ -171,7 +171,15 @@ const NavBar = () => {
                     to="/debates"
                     className="text-base font-medium hover:text-primary"
                   >
-                    Debates
+                    Inrounds
+                  </NavLink>
+                </SheetClose>
+                <SheetClose asChild>
+                  <NavLink
+                    to="/outrounds"
+                    className="text-base font-medium hover:text-primary"
+                  >
+                    Outrounds
                   </NavLink>
                 </SheetClose>
                 <SheetClose asChild>
