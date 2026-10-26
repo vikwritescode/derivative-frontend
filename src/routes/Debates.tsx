@@ -9,7 +9,12 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { NavLink } from "react-router-dom";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Trash,
@@ -40,6 +45,13 @@ import {
 } from "@/components/ui/dialog";
 import { InfoIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from "@/components/ui/empty";
 
 const Debates = () => {
   const navigate = useNavigate();
@@ -119,7 +131,9 @@ const Debates = () => {
   const handleEditClick = async (x: number) => {
     navigate(`/debates/${x}`);
   };
-
+  const handleAddEmpty = () => {
+    navigate("/import");
+  };
   const [sortBy, setSortBy] = useState("date");
   const [ascending, setAscending] = useState(false);
 
@@ -135,15 +149,15 @@ const Debates = () => {
   if (error) {
     return (
       <div className="w-full px-4 py-6 overflow-x-hidden">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold">
-          Inrounds
-        </h1>
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold">Inrounds</h1>
         <Alert variant="destructive" className="mt-6">
           <AlertCircleIcon className="h-4 w-4" />
           <AlertTitle className="text-left mb-1">
             Error retrieving debate history
           </AlertTitle>
-          <AlertDescription>{(errorMessage == "") ? "Please reload the page." : errorMessage}</AlertDescription>
+          <AlertDescription>
+            {errorMessage == "" ? "Please reload the page." : errorMessage}
+          </AlertDescription>
         </Alert>
       </div>
     );
@@ -151,206 +165,241 @@ const Debates = () => {
 
   return (
     <div className="w-full px-4 py-6 overflow-x-hidden">
-      <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold">
-        Inrounds
-      </h1>
+      <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold">Inrounds</h1>
       <div className="py-4">
-        <Table>
-          <TableHeader>
-            <TableRow className="text-left">
-              <TableHead
-                className="cursor-pointer hover:underline hover:text-secondary-foreground"
-                onClick={() => handleSort("date")}
-              >
-                Date
-                {sortBy === "date" ? (
-                  ascending ? (
-                    <ChevronsDown className="inline w-auto size-10/24" />
-                  ) : (
-                    <ChevronsUp className="inline w-auto size-10/24" />
-                  )
-                ) : (
-                  <ChevronsDown
-                    color="0000000"
-                    className="inline w-auto size-10/24"
-                  />
-                )}
-              </TableHead>
-              <TableHead
-                className="cursor-pointer hover:underline hover:text-secondary-foreground"
-                onClick={() => handleSort("tournament")}
-              >
-                Tournament
-                {sortBy === "tournament" ? (
-                  ascending ? (
-                    <ChevronsDown className="inline w-auto size-10/24" />
-                  ) : (
-                    <ChevronsUp className="inline w-auto size-10/24" />
-                  )
-                ) : (
-                  <ChevronsDown
-                    color="0000000"
-                    className="inline w-auto size-10/24"
-                  />
-                )}
-              </TableHead>
-              <TableHead
-                className="cursor-pointer hover:underline hover:text-secondary-foreground"
-                onClick={() => handleSort("position")}
-              >
-                Position
-                {sortBy === "position" ? (
-                  ascending ? (
-                    <ChevronsDown className="inline w-auto size-10/24" />
-                  ) : (
-                    <ChevronsUp className="inline w-auto size-10/24" />
-                  )
-                ) : (
-                  <ChevronsDown
-                    color="0000000"
-                    className="inline w-auto size-10/24"
-                  />
-                )}
-              </TableHead>
-              <TableHead
-                className="cursor-pointer hover:underline hover:text-secondary-foreground"
-                onClick={() => handleSort("points")}
-              >
-                Points
-                {sortBy === "points" ? (
-                  ascending ? (
-                    <ChevronsDown className="inline w-auto size-10/24" />
-                  ) : (
-                    <ChevronsUp className="inline w-auto size-10/24" />
-                  )
-                ) : (
-                  <ChevronsDown
-                    color="0000000"
-                    className="inline w-auto size-10/24"
-                  />
-                )}
-              </TableHead>
-              <TableHead
-                className="cursor-pointer hover:underline hover:text-secondary-foreground"
-                onClick={() => handleSort("speaks")}
-              >
-                Speaks
-                {sortBy === "speaks" ? (
-                  ascending ? (
-                    <ChevronsDown className="inline w-auto size-10/24" />
-                  ) : (
-                    <ChevronsUp className="inline w-auto size-10/24" />
-                  )
-                ) : (
-                  <ChevronsDown
-                    color="0000000"
-                    className="inline w-auto size-10/24"
-                  />
-                )}
-              </TableHead>
-              <TableHead
-                className="cursor-pointer hover:underline hover:text-secondary-foreground"
-                onClick={() => handleSort("format")}
-              >
-                Format
-                {sortBy === "format" ? (
-                  ascending ? (
-                    <ChevronsDown className="inline w-auto size-10/24" />
-                  ) : (
-                    <ChevronsUp className="inline w-auto size-10/24" />
-                  )
-                ) : (
-                  <ChevronsDown
-                    color="0000000"
-                    className="inline w-auto size-10/24"
-                  />
-                )}
-              </TableHead>
-              <TableHead>Info Slide</TableHead>
-              <TableHead>Motion</TableHead>
-              <TableHead>Type</TableHead>
-              {/* dummy tablehead */}
-              <TableHead></TableHead>
-              <TableHead>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      onClick={() => navigate("/add-outround")}
-                    >
-                      <Plus />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem>
-                      <NavLink to="/import">Import from tab URL</NavLink>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <NavLink to="/add">
-                        Manually add inround
-                      </NavLink>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody className="text-left">
-            {debateArr
-              .sort((a, b) => {
-                const mult = ascending ? 1 : -1;
-                if (sortBy == "date") {
-                  return (
-                    mult *
-                    (new Date(a["date"]).getTime() -
-                      new Date(b["date"]).getTime())
-                  );
-                } else if (sortBy === "tournament") {
-                  const valA =
-                    (a[sortBy] as string) === null ? "" : (a[sortBy] as string);
-                  const valB =
-                    (b[sortBy] as string) === null ? "" : (b[sortBy] as string);
-                  return (
-                    mult *
-                    valA.localeCompare(valB, undefined, { numeric: true })
-                  );
-                } else if (sortBy === "format") {
-                  const valA =
-                    (a[sortBy] as string) === null ? "" : (a[sortBy] as string);
-                  const valB =
-                    (b[sortBy] as string) === null ? "" : (b[sortBy] as string);
-                  return (
-                    mult *
-                    valA.localeCompare(valB, undefined, { numeric: true })
-                  );
-                } else if (sortBy === "position") {
-                  const positions = {
-                    OG: 0,
-                    OO: 1,
-                    CG: 2,
-                    CO: 3,
-                    AFF: 4,
-                    NEG: 5,
-                  };
-                  return mult * (positions[a[sortBy]] - positions[b[sortBy]]);
-                }
-                return mult * (a[sortBy] - b[sortBy]);
-              })
-              .map((rec: DebateRecord, i) => (
-                <TableRow>
-                  <TableCell>
-                    {rec["date"] == null ? rec["legacy_date"] : rec["date"]}
-                  </TableCell>
-                  <TableCell>{rec["tournament"]}</TableCell>
-                  <TableCell>{rec["position"]}</TableCell>
-                  <TableCell>{rec["points"]}</TableCell>
-                  <TableCell>{Math.round(rec["speaks"] * 100) / 100}</TableCell>
-                  <TableCell>{realName[rec["format"]]}</TableCell>
-                  <TableCell>
-                    {rec["infoslide"] === "" ? (
-                      <></>
+        {!load && !error && debateArr.length === 0 ? (
+          <Empty>
+            <EmptyHeader>
+              <EmptyTitle>No Debates Found</EmptyTitle>
+              <EmptyDescription>
+                You haven't imported any tournaments yet. Import a tab from a
+                URL, or add a tournament manually to get started.
+              </EmptyDescription>
+            </EmptyHeader>
+            <EmptyContent>
+              <Button onClick={handleAddEmpty}>Import Debates</Button>
+            </EmptyContent>
+          </Empty>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow className="text-left">
+                <TableHead
+                  className="cursor-pointer hover:underline hover:text-secondary-foreground"
+                  onClick={() => handleSort("date")}
+                >
+                  Date
+                  {sortBy === "date" ? (
+                    ascending ? (
+                      <ChevronsDown className="inline w-auto size-10/24" />
                     ) : (
+                      <ChevronsUp className="inline w-auto size-10/24" />
+                    )
+                  ) : (
+                    <ChevronsDown
+                      color="0000000"
+                      className="inline w-auto size-10/24"
+                    />
+                  )}
+                </TableHead>
+                <TableHead
+                  className="cursor-pointer hover:underline hover:text-secondary-foreground"
+                  onClick={() => handleSort("tournament")}
+                >
+                  Tournament
+                  {sortBy === "tournament" ? (
+                    ascending ? (
+                      <ChevronsDown className="inline w-auto size-10/24" />
+                    ) : (
+                      <ChevronsUp className="inline w-auto size-10/24" />
+                    )
+                  ) : (
+                    <ChevronsDown
+                      color="0000000"
+                      className="inline w-auto size-10/24"
+                    />
+                  )}
+                </TableHead>
+                <TableHead
+                  className="cursor-pointer hover:underline hover:text-secondary-foreground"
+                  onClick={() => handleSort("position")}
+                >
+                  Position
+                  {sortBy === "position" ? (
+                    ascending ? (
+                      <ChevronsDown className="inline w-auto size-10/24" />
+                    ) : (
+                      <ChevronsUp className="inline w-auto size-10/24" />
+                    )
+                  ) : (
+                    <ChevronsDown
+                      color="0000000"
+                      className="inline w-auto size-10/24"
+                    />
+                  )}
+                </TableHead>
+                <TableHead
+                  className="cursor-pointer hover:underline hover:text-secondary-foreground"
+                  onClick={() => handleSort("points")}
+                >
+                  Points
+                  {sortBy === "points" ? (
+                    ascending ? (
+                      <ChevronsDown className="inline w-auto size-10/24" />
+                    ) : (
+                      <ChevronsUp className="inline w-auto size-10/24" />
+                    )
+                  ) : (
+                    <ChevronsDown
+                      color="0000000"
+                      className="inline w-auto size-10/24"
+                    />
+                  )}
+                </TableHead>
+                <TableHead
+                  className="cursor-pointer hover:underline hover:text-secondary-foreground"
+                  onClick={() => handleSort("speaks")}
+                >
+                  Speaks
+                  {sortBy === "speaks" ? (
+                    ascending ? (
+                      <ChevronsDown className="inline w-auto size-10/24" />
+                    ) : (
+                      <ChevronsUp className="inline w-auto size-10/24" />
+                    )
+                  ) : (
+                    <ChevronsDown
+                      color="0000000"
+                      className="inline w-auto size-10/24"
+                    />
+                  )}
+                </TableHead>
+                <TableHead
+                  className="cursor-pointer hover:underline hover:text-secondary-foreground"
+                  onClick={() => handleSort("format")}
+                >
+                  Format
+                  {sortBy === "format" ? (
+                    ascending ? (
+                      <ChevronsDown className="inline w-auto size-10/24" />
+                    ) : (
+                      <ChevronsUp className="inline w-auto size-10/24" />
+                    )
+                  ) : (
+                    <ChevronsDown
+                      color="0000000"
+                      className="inline w-auto size-10/24"
+                    />
+                  )}
+                </TableHead>
+                <TableHead>Info Slide</TableHead>
+                <TableHead>Motion</TableHead>
+                <TableHead>Type</TableHead>
+                {/* dummy tablehead */}
+                <TableHead></TableHead>
+                <TableHead>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => navigate("/add-outround")}
+                      >
+                        <Plus />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem>
+                        <NavLink to="/import">Import from tab URL</NavLink>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <NavLink to="/add">Manually add inround</NavLink>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody className="text-left">
+              {debateArr
+                .sort((a, b) => {
+                  const mult = ascending ? 1 : -1;
+                  if (sortBy == "date") {
+                    return (
+                      mult *
+                      (new Date(a["date"]).getTime() -
+                        new Date(b["date"]).getTime())
+                    );
+                  } else if (sortBy === "tournament") {
+                    const valA =
+                      (a[sortBy] as string) === null
+                        ? ""
+                        : (a[sortBy] as string);
+                    const valB =
+                      (b[sortBy] as string) === null
+                        ? ""
+                        : (b[sortBy] as string);
+                    return (
+                      mult *
+                      valA.localeCompare(valB, undefined, { numeric: true })
+                    );
+                  } else if (sortBy === "format") {
+                    const valA =
+                      (a[sortBy] as string) === null
+                        ? ""
+                        : (a[sortBy] as string);
+                    const valB =
+                      (b[sortBy] as string) === null
+                        ? ""
+                        : (b[sortBy] as string);
+                    return (
+                      mult *
+                      valA.localeCompare(valB, undefined, { numeric: true })
+                    );
+                  } else if (sortBy === "position") {
+                    const positions = {
+                      OG: 0,
+                      OO: 1,
+                      CG: 2,
+                      CO: 3,
+                      AFF: 4,
+                      NEG: 5,
+                    };
+                    return mult * (positions[a[sortBy]] - positions[b[sortBy]]);
+                  }
+                  return mult * (a[sortBy] - b[sortBy]);
+                })
+                .map((rec: DebateRecord, i) => (
+                  <TableRow>
+                    <TableCell>
+                      {rec["date"] == null ? rec["legacy_date"] : rec["date"]}
+                    </TableCell>
+                    <TableCell>{rec["tournament"]}</TableCell>
+                    <TableCell>{rec["position"]}</TableCell>
+                    <TableCell>{rec["points"]}</TableCell>
+                    <TableCell>
+                      {Math.round(rec["speaks"] * 100) / 100}
+                    </TableCell>
+                    <TableCell>{realName[rec["format"]]}</TableCell>
+                    <TableCell>
+                      {rec["infoslide"] === "" ? (
+                        <></>
+                      ) : (
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button variant="ghost">
+                              <InfoIcon />
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="max-w-md max-h-100 overflow-y-auto">
+                            <p className="text-sm whitespace-pre-wrap">
+                              {rec["infoslide"]}
+                            </p>
+                          </PopoverContent>
+                        </Popover>
+                      )}
+                    </TableCell>
+                    <TableCell>
                       <Popover>
                         <PopoverTrigger asChild>
                           <Button variant="ghost">
@@ -359,89 +408,75 @@ const Debates = () => {
                         </PopoverTrigger>
                         <PopoverContent className="max-w-md max-h-100 overflow-y-auto">
                           <p className="text-sm whitespace-pre-wrap">
-                            {rec["infoslide"]}
+                            {rec["motion"]}
                           </p>
                         </PopoverContent>
                       </Popover>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button variant="ghost">
-                          <InfoIcon />
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="max-w-md max-h-100 overflow-y-auto">
-                        <p className="text-sm whitespace-pre-wrap">
-                          {rec["motion"]}
-                        </p>
-                      </PopoverContent>
-                    </Popover>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex flex-wrap gap-1">
-                      {(rec["categories"] || [])
-                        .filter((x: string) => x)
-                        .map((x: string) => (
-                          <CategoryBadge category={x} />
-                        ))}
-                    </div>
-                  </TableCell>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex flex-wrap gap-1">
+                        {(rec["categories"] || [])
+                          .filter((x: string) => x)
+                          .map((x: string) => (
+                            <CategoryBadge category={x} />
+                          ))}
+                      </div>
+                    </TableCell>
 
-                  <TableCell onClick={() => handleEditClick(rec["id"])}>
-                    <Button disabled={loads[i]} variant="ghost" size="icon">
-                      {loads[i] ? <Spinner /> : <PencilIcon />}
-                    </Button>
-                  </TableCell>
+                    <TableCell onClick={() => handleEditClick(rec["id"])}>
+                      <Button disabled={loads[i]} variant="ghost" size="icon">
+                        {loads[i] ? <Spinner /> : <PencilIcon />}
+                      </Button>
+                    </TableCell>
 
-                  <TableCell>
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button
-                          disabled={loads[i]}
-                          variant="ghost"
-                          size="icon"
-                          className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                        >
-                          {loads[i] ? <Spinner /> : <Trash />}
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Delete Debate</DialogTitle>
-                          <DialogDescription>
-                            Are you sure you want to delete this debate?
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2 sm:gap-3 p-6 sm:p-0 -m-6 sm:m-0">
-                          <DialogClose asChild>
-                            <Button
-                              className="w-full sm:w-auto"
-                              variant="outline"
-                              disabled={loads[i]}
-                            >
-                              Cancel
-                            </Button>
-                          </DialogClose>
-                          <DialogClose asChild>
-                            <Button
-                              className="w-full sm:w-auto"
-                              variant="destructive"
-                              onClick={() => handleDeleteClick(rec["id"])}
-                              disabled={loads[i]}
-                            >
-                              Delete
-                            </Button>
-                          </DialogClose>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
+                    <TableCell>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button
+                            disabled={loads[i]}
+                            variant="ghost"
+                            size="icon"
+                            className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                          >
+                            {loads[i] ? <Spinner /> : <Trash />}
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Delete Debate</DialogTitle>
+                            <DialogDescription>
+                              Are you sure you want to delete this debate?
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2 sm:gap-3 p-6 sm:p-0 -m-6 sm:m-0">
+                            <DialogClose asChild>
+                              <Button
+                                className="w-full sm:w-auto"
+                                variant="outline"
+                                disabled={loads[i]}
+                              >
+                                Cancel
+                              </Button>
+                            </DialogClose>
+                            <DialogClose asChild>
+                              <Button
+                                className="w-full sm:w-auto"
+                                variant="destructive"
+                                onClick={() => handleDeleteClick(rec["id"])}
+                                disabled={loads[i]}
+                              >
+                                Delete
+                              </Button>
+                            </DialogClose>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        )}
       </div>
     </div>
   );

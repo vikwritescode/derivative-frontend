@@ -1,7 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../context/AuthContext";
 import { NavLink } from "react-router-dom";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableHeader,
@@ -38,6 +43,13 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from "@/components/ui/empty";
 
 const Tournaments = () => {
   type SortKey =
@@ -236,6 +248,9 @@ const Tournaments = () => {
       setSortBy(ind);
     }
   };
+  const handleAddEmpty = () => {
+    navigate("/import");
+  };
 
   if (error) {
     return (
@@ -274,320 +289,338 @@ const Tournaments = () => {
         </AlertDescription>
       </Alert>
       <div className="py-4">
-        <Table>
-          <TableHeader>
-            <TableRow className="text-left">
-              <TableHead
-                className="cursor-pointer hover:underline hover:text-secondary-foreground"
-                onClick={() => handleSort("date")}
-              >
-                Date
-                {sortBy === "date" ? (
-                  ascending ? (
-                    <ChevronsDown className="inline w-auto size-10/24 pl-1" />
+        {!load && !error && tournamentArr.length === 0 ? (
+          <Empty>
+            <EmptyHeader>
+              <EmptyTitle>No Debates Found</EmptyTitle>
+              <EmptyDescription>
+                You haven't imported any tournaments yet. Import a tab from a
+                URL, or add a tournament manually to get started.
+              </EmptyDescription>
+            </EmptyHeader>
+            <EmptyContent>
+              <Button onClick={handleAddEmpty}>Import Debates</Button>
+            </EmptyContent>
+          </Empty>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow className="text-left">
+                <TableHead
+                  className="cursor-pointer hover:underline hover:text-secondary-foreground"
+                  onClick={() => handleSort("date")}
+                >
+                  Date
+                  {sortBy === "date" ? (
+                    ascending ? (
+                      <ChevronsDown className="inline w-auto size-10/24 pl-1" />
+                    ) : (
+                      <ChevronsUp className="inline w-auto size-10/24 pl-1" />
+                    )
                   ) : (
-                    <ChevronsUp className="inline w-auto size-10/24 pl-1" />
-                  )
-                ) : (
-                  <ChevronsDown
-                    color="0000000"
-                    className="inline w-auto size-10/24 pl-1"
-                  />
-                )}
-              </TableHead>
-              <TableHead
-                className="cursor-pointer hover:underline hover:text-secondary-foreground"
-                onClick={() => handleSort("name")}
-              >
-                Tournament
-                {sortBy === "name" ? (
-                  ascending ? (
-                    <ChevronsDown className="inline w-auto size-10/24 pl-1" />
+                    <ChevronsDown
+                      color="0000000"
+                      className="inline w-auto size-10/24 pl-1"
+                    />
+                  )}
+                </TableHead>
+                <TableHead
+                  className="cursor-pointer hover:underline hover:text-secondary-foreground"
+                  onClick={() => handleSort("name")}
+                >
+                  Tournament
+                  {sortBy === "name" ? (
+                    ascending ? (
+                      <ChevronsDown className="inline w-auto size-10/24 pl-1" />
+                    ) : (
+                      <ChevronsUp className="inline w-auto size-10/24 pl-1" />
+                    )
                   ) : (
-                    <ChevronsUp className="inline w-auto size-10/24 pl-1" />
-                  )
-                ) : (
-                  <ChevronsDown
-                    color="0000000"
-                    className="inline w-auto size-10/24 pl-1"
-                  />
-                )}
-              </TableHead>
+                    <ChevronsDown
+                      color="0000000"
+                      className="inline w-auto size-10/24 pl-1"
+                    />
+                  )}
+                </TableHead>
 
-              <TableHead
-                className="cursor-pointer hover:underline hover:text-secondary-foreground"
-                onClick={() => handleSort("team_standing")}
-              >
-                Team Rank
-                {sortBy === "team_standing" ? (
-                  ascending ? (
-                    <ChevronsDown className="inline w-auto size-10/24 pl-1" />
+                <TableHead
+                  className="cursor-pointer hover:underline hover:text-secondary-foreground"
+                  onClick={() => handleSort("team_standing")}
+                >
+                  Team Rank
+                  {sortBy === "team_standing" ? (
+                    ascending ? (
+                      <ChevronsDown className="inline w-auto size-10/24 pl-1" />
+                    ) : (
+                      <ChevronsUp className="inline w-auto size-10/24 pl-1" />
+                    )
                   ) : (
-                    <ChevronsUp className="inline w-auto size-10/24 pl-1" />
-                  )
-                ) : (
-                  <ChevronsDown
-                    color="0000000"
-                    className="inline w-auto size-10/24 pl-1"
-                  />
-                )}
-              </TableHead>
+                    <ChevronsDown
+                      color="0000000"
+                      className="inline w-auto size-10/24 pl-1"
+                    />
+                  )}
+                </TableHead>
 
-              <TableHead
-                className="cursor-pointer hover:underline hover:text-secondary-foreground"
-                onClick={() => handleSort("speaker_standing")}
-              >
-                Speaker Rank
-                {sortBy === "speaker_standing" ? (
-                  ascending ? (
-                    <ChevronsDown className="inline w-auto size-10/24 pl-1" />
+                <TableHead
+                  className="cursor-pointer hover:underline hover:text-secondary-foreground"
+                  onClick={() => handleSort("speaker_standing")}
+                >
+                  Speaker Rank
+                  {sortBy === "speaker_standing" ? (
+                    ascending ? (
+                      <ChevronsDown className="inline w-auto size-10/24 pl-1" />
+                    ) : (
+                      <ChevronsUp className="inline w-auto size-10/24 pl-1" />
+                    )
                   ) : (
-                    <ChevronsUp className="inline w-auto size-10/24 pl-1" />
-                  )
-                ) : (
-                  <ChevronsDown
-                    color="0000000"
-                    className="inline w-auto size-10/24 pl-1"
-                  />
-                )}
-              </TableHead>
+                    <ChevronsDown
+                      color="0000000"
+                      className="inline w-auto size-10/24 pl-1"
+                    />
+                  )}
+                </TableHead>
 
-              <TableHead
-                className="cursor-pointer hover:underline hover:text-secondary-foreground"
-                onClick={() => handleSort("rooms")}
-              >
-                Rooms
-                {sortBy === "rooms" ? (
-                  ascending ? (
-                    <ChevronsDown className="inline w-auto size-10/24 pl-1" />
+                <TableHead
+                  className="cursor-pointer hover:underline hover:text-secondary-foreground"
+                  onClick={() => handleSort("rooms")}
+                >
+                  Rooms
+                  {sortBy === "rooms" ? (
+                    ascending ? (
+                      <ChevronsDown className="inline w-auto size-10/24 pl-1" />
+                    ) : (
+                      <ChevronsUp className="inline w-auto size-10/24 pl-1" />
+                    )
                   ) : (
-                    <ChevronsUp className="inline w-auto size-10/24 pl-1" />
-                  )
-                ) : (
-                  <ChevronsDown
-                    color="0000000"
-                    className="inline w-auto size-10/24 pl-1"
-                  />
-                )}
-              </TableHead>
-              <TableHead
-                className="cursor-pointer hover:underline hover:text-secondary-foreground"
-                onClick={() => handleSort("format")}
-              >
-                Format
-                {sortBy === "format" ? (
-                  ascending ? (
-                    <ChevronsDown className="inline w-auto size-10/24 pl-1" />
+                    <ChevronsDown
+                      color="0000000"
+                      className="inline w-auto size-10/24 pl-1"
+                    />
+                  )}
+                </TableHead>
+                <TableHead
+                  className="cursor-pointer hover:underline hover:text-secondary-foreground"
+                  onClick={() => handleSort("format")}
+                >
+                  Format
+                  {sortBy === "format" ? (
+                    ascending ? (
+                      <ChevronsDown className="inline w-auto size-10/24 pl-1" />
+                    ) : (
+                      <ChevronsUp className="inline w-auto size-10/24 pl-1" />
+                    )
                   ) : (
-                    <ChevronsUp className="inline w-auto size-10/24 pl-1" />
-                  )
-                ) : (
-                  <ChevronsDown
-                    color="0000000"
-                    className="inline w-auto size-10/24 pl-1"
-                  />
-                )}
-              </TableHead>
+                    <ChevronsDown
+                      color="0000000"
+                      className="inline w-auto size-10/24 pl-1"
+                    />
+                  )}
+                </TableHead>
 
-              <TableHead
-                className="cursor-pointer hover:underline hover:text-secondary-foreground"
-                onClick={() => handleSort("total_points")}
-              >
-                Points
-                {sortBy === "total_points" ? (
-                  ascending ? (
-                    <ChevronsDown className="inline w-auto size-10/24 pl-1" />
+                <TableHead
+                  className="cursor-pointer hover:underline hover:text-secondary-foreground"
+                  onClick={() => handleSort("total_points")}
+                >
+                  Points
+                  {sortBy === "total_points" ? (
+                    ascending ? (
+                      <ChevronsDown className="inline w-auto size-10/24 pl-1" />
+                    ) : (
+                      <ChevronsUp className="inline w-auto size-10/24 pl-1" />
+                    )
                   ) : (
-                    <ChevronsUp className="inline w-auto size-10/24 pl-1" />
-                  )
-                ) : (
-                  <ChevronsDown
-                    color="0000000"
-                    className="inline w-auto size-10/24 pl-1"
-                  />
-                )}
-              </TableHead>
-              <TableHead
-                className="cursor-pointer hover:underline hover:text-secondary-foreground"
-                onClick={() => handleSort("avg_speaks")}
-              >
-                Avg Speaks
-                {sortBy === "avg_speaks" ? (
-                  ascending ? (
-                    <ChevronsDown className="inline w-auto size-10/24 pl-1" />
+                    <ChevronsDown
+                      color="0000000"
+                      className="inline w-auto size-10/24 pl-1"
+                    />
+                  )}
+                </TableHead>
+                <TableHead
+                  className="cursor-pointer hover:underline hover:text-secondary-foreground"
+                  onClick={() => handleSort("avg_speaks")}
+                >
+                  Avg Speaks
+                  {sortBy === "avg_speaks" ? (
+                    ascending ? (
+                      <ChevronsDown className="inline w-auto size-10/24 pl-1" />
+                    ) : (
+                      <ChevronsUp className="inline w-auto size-10/24 pl-1" />
+                    )
                   ) : (
-                    <ChevronsUp className="inline w-auto size-10/24 pl-1" />
-                  )
-                ) : (
-                  <ChevronsDown
-                    color="0000000"
-                    className="inline w-auto size-10/24 pl-1"
-                  />
-                )}
-              </TableHead>
+                    <ChevronsDown
+                      color="0000000"
+                      className="inline w-auto size-10/24 pl-1"
+                    />
+                  )}
+                </TableHead>
 
-              <TableHead>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      onClick={() => navigate("/add-outround")}
-                    >
-                      <Plus />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem>
-                      <NavLink to="/import">Import from tab URL</NavLink>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <NavLink to="/add-tournaments">
-                        Manually add tournament
-                      </NavLink>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody className="text-left">
-            {[...tournamentArr]
-              .sort((a, b) => {
-                const mult = ascending ? 1 : -1;
-                switch (sortBy) {
-                  case "date":
-                    return (
-                      mult *
-                      (new Date(a.date).getTime() - new Date(b.date).getTime())
-                    );
-                  case "name":
-                    return (
-                      mult *
-                      (a.name ?? "").localeCompare(b.name ?? "", undefined, {
-                        numeric: true,
-                      })
-                    );
-                  case "format":
-                    return (
-                      mult *
-                      (a.format ?? "").localeCompare(
-                        b.format ?? "",
-                        undefined,
-                        {
+                <TableHead>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => navigate("/add-outround")}
+                      >
+                        <Plus />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem>
+                        <NavLink to="/import">Import from tab URL</NavLink>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <NavLink to="/add-tournaments">
+                          Manually add tournament
+                        </NavLink>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody className="text-left">
+              {[...tournamentArr]
+                .sort((a, b) => {
+                  const mult = ascending ? 1 : -1;
+                  switch (sortBy) {
+                    case "date":
+                      return (
+                        mult *
+                        (new Date(a.date).getTime() -
+                          new Date(b.date).getTime())
+                      );
+                    case "name":
+                      return (
+                        mult *
+                        (a.name ?? "").localeCompare(b.name ?? "", undefined, {
                           numeric: true,
-                        },
-                      )
-                    );
-                  case "team_standing":
-                    return mult * (a.team_standing - b.team_standing);
-                  case "speaker_standing":
-                    return mult * (a.speaker_standing - b.speaker_standing);
-                  case "rooms":
-                    return mult * (a.rooms - b.rooms);
-                  case "total_points":
-                    return mult * (a.total_points - b.total_points);
-                  case "avg_speaks":
-                    return mult * (a.avg_speaks - b.avg_speaks);
-                  default:
-                    return 0;
-                }
-              })
-              .map((rec: TournamentRecord, i) => (
-                <TableRow>
-                  <TableCell>{rec["date"]}</TableCell>
-                  <TableCell>{rec["name"]}</TableCell>
-                  <TableCell>{rec["team_standing"]}</TableCell>
-                  <TableCell>{rec["speaker_standing"]}</TableCell>
-                  <TableCell>{rec["rooms"]}</TableCell>
-                  <TableCell>{rec["format"]}</TableCell>
-                  <TableCell>{rec["total_points"]}</TableCell>
-                  <TableCell>
-                    {Math.round(rec["avg_speaks"] * 100) / 100}
-                  </TableCell>
-                  <TableCell>
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        {
-                          <Button
-                            disabled={loads[i] || refreshLoads[i]}
-                            variant="ghost"
-                            size="icon"
-                            className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                          >
-                            {loads[i] ? <Spinner /> : <Trash />}
-                          </Button>
-                        }
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Delete Tournament</DialogTitle>
-                          <DialogDescription>
-                            Are you sure you want to delete {rec["name"]} and
-                            all associated debates?
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2 sm:gap-3 p-6 sm:p-0 -m-6 sm:m-0">
-                          <DialogClose asChild>
+                        })
+                      );
+                    case "format":
+                      return (
+                        mult *
+                        (a.format ?? "").localeCompare(
+                          b.format ?? "",
+                          undefined,
+                          {
+                            numeric: true,
+                          },
+                        )
+                      );
+                    case "team_standing":
+                      return mult * (a.team_standing - b.team_standing);
+                    case "speaker_standing":
+                      return mult * (a.speaker_standing - b.speaker_standing);
+                    case "rooms":
+                      return mult * (a.rooms - b.rooms);
+                    case "total_points":
+                      return mult * (a.total_points - b.total_points);
+                    case "avg_speaks":
+                      return mult * (a.avg_speaks - b.avg_speaks);
+                    default:
+                      return 0;
+                  }
+                })
+                .map((rec: TournamentRecord, i) => (
+                  <TableRow>
+                    <TableCell>{rec["date"]}</TableCell>
+                    <TableCell>{rec["name"]}</TableCell>
+                    <TableCell>{rec["team_standing"]}</TableCell>
+                    <TableCell>{rec["speaker_standing"]}</TableCell>
+                    <TableCell>{rec["rooms"]}</TableCell>
+                    <TableCell>{rec["format"]}</TableCell>
+                    <TableCell>{rec["total_points"]}</TableCell>
+                    <TableCell>
+                      {Math.round(rec["avg_speaks"] * 100) / 100}
+                    </TableCell>
+                    <TableCell>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          {
                             <Button
-                              className="w-full sm:w-auto"
-                              variant="outline"
-                              disabled={loads[i]}
+                              disabled={loads[i] || refreshLoads[i]}
+                              variant="ghost"
+                              size="icon"
+                              className="text-destructive hover:text-destructive hover:bg-destructive/10"
                             >
-                              Cancel
+                              {loads[i] ? <Spinner /> : <Trash />}
                             </Button>
-                          </DialogClose>
-                          <DialogClose asChild>
-                            <Button
-                              className="w-full sm:w-auto"
-                              variant="destructive"
-                              onClick={() => handleDeleteClick(i, rec["id"])}
-                              disabled={loads[i]}
-                            >
-                              Delete
-                            </Button>
-                          </DialogClose>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-                  </TableCell>
+                          }
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Delete Tournament</DialogTitle>
+                            <DialogDescription>
+                              Are you sure you want to delete {rec["name"]} and
+                              all associated debates?
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2 sm:gap-3 p-6 sm:p-0 -m-6 sm:m-0">
+                            <DialogClose asChild>
+                              <Button
+                                className="w-full sm:w-auto"
+                                variant="outline"
+                                disabled={loads[i]}
+                              >
+                                Cancel
+                              </Button>
+                            </DialogClose>
+                            <DialogClose asChild>
+                              <Button
+                                className="w-full sm:w-auto"
+                                variant="destructive"
+                                onClick={() => handleDeleteClick(i, rec["id"])}
+                                disabled={loads[i]}
+                              >
+                                Delete
+                              </Button>
+                            </DialogClose>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                    </TableCell>
 
-                  <TableCell>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span className="inline-flex">
-                          <Button
-                            disabled={
-                              refreshLoads[i] || loads[i] || dead.has(rec["id"])
-                            }
-                            variant="outline"
-                            hidden={!dated.has(rec["id"])}
-                            size="icon"
-                            onClick={() => handleRefreshClick(i, rec["id"])}
-                          >
-                            {dead.has(rec["id"]) ? (
-                              <AlertCircleIcon />
-                            ) : refreshLoads[i] ? (
-                              <Spinner />
-                            ) : (
-                              <RefreshCw />
-                            )}
-                          </Button>
-                        </span>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        {dead.has(rec["id"]) ? (
-                          <p>Invalid Tournament. Import again.</p>
-                        ) : (
-                          <p>Refresh Tournament Data</p>
-                        )}
-                      </TooltipContent>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
+                    <TableCell>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <span className="inline-flex">
+                            <Button
+                              disabled={
+                                refreshLoads[i] ||
+                                loads[i] ||
+                                dead.has(rec["id"])
+                              }
+                              variant="outline"
+                              hidden={!dated.has(rec["id"])}
+                              size="icon"
+                              onClick={() => handleRefreshClick(i, rec["id"])}
+                            >
+                              {dead.has(rec["id"]) ? (
+                                <AlertCircleIcon />
+                              ) : refreshLoads[i] ? (
+                                <Spinner />
+                              ) : (
+                                <RefreshCw />
+                              )}
+                            </Button>
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          {dead.has(rec["id"]) ? (
+                            <p>Invalid Tournament. Import again.</p>
+                          ) : (
+                            <p>Refresh Tournament Data</p>
+                          )}
+                        </TooltipContent>
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        )}
       </div>
     </div>
   );
