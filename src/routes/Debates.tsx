@@ -28,6 +28,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { InfoIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -371,15 +380,48 @@ const Debates = () => {
                     </Button>
                   </TableCell>
 
-                  <TableCell onClick={() => handleDeleteClick(rec["id"])}>
-                    <Button
-                      disabled={loads[i]}
-                      variant="ghost"
-                      size="icon"
-                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                    >
-                      {loads[i] ? <Spinner /> : <Trash />}
-                    </Button>
+                  <TableCell>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button
+                          disabled={loads[i]}
+                          variant="ghost"
+                          size="icon"
+                          className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                        >
+                          {loads[i] ? <Spinner /> : <Trash />}
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Delete Debate</DialogTitle>
+                          <DialogDescription>
+                            Are you sure you want to delete this debate?
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2 sm:gap-3 p-6 sm:p-0 -m-6 sm:m-0">
+                          <DialogClose asChild>
+                            <Button
+                              className="w-full sm:w-auto"
+                              variant="outline"
+                              disabled={loads[i]}
+                            >
+                              Cancel
+                            </Button>
+                          </DialogClose>
+                          <DialogClose asChild>
+                            <Button
+                              className="w-full sm:w-auto"
+                              variant="destructive"
+                              onClick={() => handleDeleteClick(rec["id"])}
+                              disabled={loads[i]}
+                            >
+                              Delete
+                            </Button>
+                          </DialogClose>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
                   </TableCell>
                 </TableRow>
               ))}

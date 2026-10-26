@@ -18,6 +18,26 @@ export interface DebateRecord {
   order: number;
 }
 
+export interface OutroundRecord {
+  id: number;
+  uid: string;
+  date: string;
+  position: string;
+  round_name: string;
+  round_short_name: string;
+  infoslide: string;
+  motion: string;
+  categories: Array<string>;
+  tournament: string;
+  tournament_id: string;
+  partner: string;
+  format: string;
+  has_reply: boolean;
+  reply: number;
+  order: number;
+  advancing: boolean;
+}
+
 export interface TournamentRecord {
   id: number;
   name: string;

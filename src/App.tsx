@@ -7,9 +7,12 @@ import AuthContext from "./context/AuthContext";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Layout from "./routes/Layout";
 import Debates from "./routes/Debates";
+import Outrounds from "./routes/Outrounds";
 import ImportDebates from "./routes/ImportDebates";
 import AddDebate from "./routes/AddDebate";
+import AddOutround from "./routes/AddOutround";
 import ModifyDebate from "./routes/ModifyDebate";
+import ModifyOutround from "./routes/ModifyOutround";
 import Help from "./routes/Help";
 import { ThemeProvider } from "@/components/theme-provider";
 import AddTournaments from "./routes/AddTournaments";
@@ -56,6 +59,14 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "outrounds",
+        element: (
+          <ProtectedRoute>
+            <Outrounds />
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "import",
         element: (
           <ProtectedRoute>
@@ -68,6 +79,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <AddDebate />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "add-outround",
+        element: (
+          <ProtectedRoute>
+            <AddOutround />
           </ProtectedRoute>
         ),
       },
@@ -104,13 +123,21 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "outrounds/:id",
+        element: (
+          <ProtectedRoute>
+            <ModifyOutround />
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "speaks",
         element: (
           <ProtectedRoute>
             <Speaks />
           </ProtectedRoute>
         ),
-      }
+      },
     ],
   },
 ]);
