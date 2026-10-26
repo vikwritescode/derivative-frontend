@@ -5,9 +5,11 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebase-config";
 import {
   NavigationMenu,
+  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
+  NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import {
   DropdownMenu,
@@ -41,9 +43,9 @@ const NavBar = () => {
 
   return (
     <>
-      <div className="w-full border-b overflow-x-hidden">
+      <div className="relative z-50 w-full border-b">
         <div className="hidden mx-auto md:flex max-w-7xl items-center justify-between px-4 sm:px-6 pb-3">
-          <NavigationMenu>
+          <NavigationMenu viewport={false}>
             <NavigationMenuList className="flex gap-4">
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
@@ -68,16 +70,16 @@ const NavBar = () => {
                       </NavLink>
                     </NavigationMenuLink>
                   </NavigationMenuItem>
-                  <NavigationMenuItem></NavigationMenuItem>
                   <NavigationMenuItem>
-                    <NavigationMenuLink asChild>
-                      <NavLink
-                        to="/debates"
-                        className="whitespace-nowrap overflow-hidden text-center text-ellipsis"
-                      >
-                        Debates
-                      </NavLink>
-                    </NavigationMenuLink>
+                    <NavigationMenuTrigger>Debates</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <NavigationMenuLink asChild>
+                        <NavLink to="/debates">Inrounds</NavLink>
+                      </NavigationMenuLink>
+                      <NavigationMenuLink asChild>
+                        <NavLink to="/outrounds">Outrounds</NavLink>
+                      </NavigationMenuLink>
+                    </NavigationMenuContent>
                   </NavigationMenuItem>
                   <NavigationMenuItem>
                     <NavigationMenuLink asChild>
