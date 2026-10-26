@@ -1,4 +1,5 @@
-import{ useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { Context } from "../context/AuthContext";
 import {
   Table,
@@ -41,6 +42,12 @@ import {
 } from "@/components/ui/dialog";
 import { InfoIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem
+} from "@/components/ui/dropdown-menu";
 
 const Outrounds = () => {
   const navigate = useNavigate();
@@ -137,14 +144,16 @@ const Outrounds = () => {
     return (
       <div className="w-full px-4 py-6 overflow-x-hidden">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold">
-          Your Outrounds
+          Outrounds
         </h1>
         <Alert variant="destructive" className="mt-6">
           <AlertCircleIcon className="h-4 w-4" />
           <AlertTitle className="text-left mb-1">
             Error retrieving outround history
           </AlertTitle>
-          <AlertDescription>{(errorMessage == "") ? "Please reload the page." : errorMessage}</AlertDescription>
+          <AlertDescription>
+            {errorMessage == "" ? "Please reload the page." : errorMessage}
+          </AlertDescription>
         </Alert>
       </div>
     );
@@ -152,9 +161,7 @@ const Outrounds = () => {
 
   return (
     <div className="w-full px-4 py-6 overflow-x-hidden">
-      <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold">
-        Your Outrounds
-      </h1>
+      <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold">Outrounds</h1>
       <div className="py-4">
         <Table>
           <TableHeader>
@@ -256,13 +263,27 @@ const Outrounds = () => {
               {/* dummy tablehead */}
               <TableHead></TableHead>
               <TableHead>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  onClick={() => navigate("/add-outround")}
-                >
-                  <Plus />
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      onClick={() => navigate("/add-outround")}
+                    >
+                      <Plus />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem>
+                      <NavLink to="/import">Import from tab URL</NavLink>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <NavLink to="/add-outround">
+                        Manually add outround
+                      </NavLink>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -313,9 +334,7 @@ const Outrounds = () => {
               })
               .map((rec: OutroundRecord, i) => (
                 <TableRow>
-                  <TableCell>
-                    {rec["date"]}
-                  </TableCell>
+                  <TableCell>{rec["date"]}</TableCell>
                   <TableCell>{rec["tournament"]}</TableCell>
                   <TableCell>{rec["position"]}</TableCell>
                   <TableCell>{rec["round_name"]}</TableCell>

@@ -8,7 +8,8 @@ import {
   TableRow,
   TableCell,
 } from "@/components/ui/table";
-
+import { NavLink } from "react-router-dom";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Trash,
@@ -135,7 +136,7 @@ const Debates = () => {
     return (
       <div className="w-full px-4 py-6 overflow-x-hidden">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold">
-          Your Debates
+          Inrounds
         </h1>
         <Alert variant="destructive" className="mt-6">
           <AlertCircleIcon className="h-4 w-4" />
@@ -151,7 +152,7 @@ const Debates = () => {
   return (
     <div className="w-full px-4 py-6 overflow-x-hidden">
       <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold">
-        Your Debates
+        Inrounds
       </h1>
       <div className="py-4">
         <Table>
@@ -271,13 +272,27 @@ const Debates = () => {
               {/* dummy tablehead */}
               <TableHead></TableHead>
               <TableHead>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  onClick={() => navigate("/add")}
-                >
-                  <Plus />
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      onClick={() => navigate("/add-outround")}
+                    >
+                      <Plus />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem>
+                      <NavLink to="/import">Import from tab URL</NavLink>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <NavLink to="/add">
+                        Manually add inround
+                      </NavLink>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </TableHead>
             </TableRow>
           </TableHeader>

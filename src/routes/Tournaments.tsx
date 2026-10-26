@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../context/AuthContext";
+import { NavLink } from "react-router-dom";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableHeader,
@@ -425,13 +427,27 @@ const Tournaments = () => {
               </TableHead>
 
               <TableHead>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  onClick={() => navigate("/add-tournaments")}
-                >
-                  <Plus />
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      onClick={() => navigate("/add-outround")}
+                    >
+                      <Plus />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem>
+                      <NavLink to="/import">Import from tab URL</NavLink>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <NavLink to="/add-tournaments">
+                        Manually add tournament
+                      </NavLink>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </TableHead>
             </TableRow>
           </TableHeader>
