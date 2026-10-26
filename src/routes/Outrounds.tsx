@@ -177,7 +177,7 @@ const Outrounds = () => {
             <EmptyHeader>
               <EmptyTitle>No Debates Found</EmptyTitle>
               <EmptyDescription>
-                You haven't imported any tournaments yet. Import a tab from a
+                You don't have any outrounds yet. Import a tab from a
                 URL, or add a tournament manually to get started.
               </EmptyDescription>
             </EmptyHeader>
