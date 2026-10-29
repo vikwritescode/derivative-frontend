@@ -1,6 +1,8 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./routes/Dashboard";
+import Australs from "./routes/Australs";
+import Wsdc from "./routes/Wsdc";
 import SignIn from "./routes/SignIn";
 import SignUp from "./routes/SignUp";
 import AuthContext from "./context/AuthContext";
@@ -31,6 +33,22 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "australs",
+        element: (
+          <ProtectedRoute>
+            <Australs />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "wsdc",
+        element: (
+          <ProtectedRoute>
+            <Wsdc />
           </ProtectedRoute>
         ),
       },
