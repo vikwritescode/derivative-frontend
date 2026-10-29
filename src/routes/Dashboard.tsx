@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/empty";
 import { Button } from "@/components/ui/button";
 import PositionOrderCard from "@/components/dashboard-cards/PositionOrderCard";
+import AveragePointsCard from "@/components/dashboard-cards/AveragePointsCard";
 // import { DebateRecord } from "@/interfaces";
 
 const Dashboard = () => {
@@ -213,9 +214,12 @@ const Dashboard = () => {
           </div>
           {/* BP dashboard cards */}
           <div hidden={bpData.length === 0}>
-            <div className="grid grid-cols-1 gap-6 mt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
               <AverageSpeaksCard debateData={bpData} />
-              <PerformanceCard debateData={bpData} />
+              <AveragePointsCard debateData={bpData} />
+            </div>
+            <div className="grid grid-cols-1 gap-6 mt-6">
+            <PerformanceCard debateData={bpData} />
             </div>
 
             <div className="mt-4">
