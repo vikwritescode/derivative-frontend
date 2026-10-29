@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
-import { Cell, Pie, PieChart, Label } from "recharts";
+import { Label, Pie, PieChart } from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
@@ -78,7 +78,10 @@ const PieChartPositionCard = ({
     { points: 1, count: 0 },
     { points: 2, count: 0 },
     { points: 3, count: 0 },
-  ];
+  ].map((entry) => ({
+    ...entry,
+    fill: chartConfig[entry.points as keyof typeof chartConfig].color,
+  }));
   debateData
     .filter((x) => x["position"] == position)
     .forEach((debate) => {
@@ -118,37 +121,10 @@ const PieChartPositionCard = ({
             >
               <Label
                 position="center"
-                className="text-foreground"
-                fontSize={18}
-                content={({ viewBox }) => {
-                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                    return (
-                      <text
-                        x={viewBox.cx}
-                        y={viewBox.cy}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                      >
-                        <tspan
-                          x={viewBox.cx}
-                          y={viewBox.cy}
-                          className="fill-foreground text-3xl"
-                        >
-                          {dispAv(teamStats[position.toLowerCase()])}
-                        </tspan>
-                      </text>
-                    );
-                  }
-                }}
-              ></Label>
-              {chartData.map((entry) => (
-                <Cell
-                  key={entry.points}
-                  fill={
-                    chartConfig[entry.points as keyof typeof chartConfig].color
-                  }
-                />
-              ))}
+                className="fill-foreground"
+                fontSize={24}
+                value={dispAv(teamStats[position.toLowerCase()])}
+              />
             </Pie>
           </PieChart>
         </ChartContainer>
