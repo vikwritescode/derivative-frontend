@@ -26,8 +26,8 @@ import {
   EmptyContent,
 } from "@/components/ui/empty";
 import { Button } from "@/components/ui/button";
-import WSDCAverageSpeaksCard from "@/components/dashboard-cards/WSDCAverageSpeaksCard";
 import PositionOrderCard from "@/components/dashboard-cards/PositionOrderCard";
+import AveragePointsCard from "@/components/dashboard-cards/AveragePointsCard";
 // import { DebateRecord } from "@/interfaces";
 
 const Dashboard = () => {
@@ -37,8 +37,6 @@ const Dashboard = () => {
   const [debateArr, setDebateArr] = useState<DebateRecord[]>([]);
   // different arrays to pass to the cards
   const [bpData, setBpData] = useState<DebateRecord[]>([]);
-  const [wsdcData, setWsdcData] = useState<DebateRecord[]>([]);
-  const [australsData, setAustralsData] = useState<DebateRecord[]>([]);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [partnerSet, setPartnerSet] = useState<Set<string>>(new Set());
@@ -49,8 +47,6 @@ const Dashboard = () => {
   // Keep format-specific datasets in sync with the filtered debate list.
   useEffect(() => {
     setBpData(debateArr.filter((x) => x.format === "BP"));
-    setWsdcData(debateArr.filter((x) => x.format === "WSDC"));
-    setAustralsData(debateArr.filter((x) => x.format === "AUS"));
   }, [debateArr]);
 
   const handleFilterChange = (
@@ -144,7 +140,9 @@ const Dashboard = () => {
           <AlertTitle className="text-left mb-1">
             Error fetching data
           </AlertTitle>
-          <AlertDescription>{(errorMessage == "") ? "Please reload the page." : errorMessage}</AlertDescription>
+          <AlertDescription>
+            {errorMessage == "" ? "Please reload the page." : errorMessage}
+          </AlertDescription>
         </Alert>
       </div>
     );
@@ -216,10 +214,12 @@ const Dashboard = () => {
           </div>
           {/* BP dashboard cards */}
           <div hidden={bpData.length === 0}>
-            <h2 className="text-3xl sm:text-4xl font-semibold mt-6">BP</h2>
-            <div className="grid grid-cols-1 gap-6 mt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
               <AverageSpeaksCard debateData={bpData} />
-              <PerformanceCard debateData={bpData} />
+              <AveragePointsCard debateData={bpData} />
+            </div>
+            <div className="grid grid-cols-1 gap-6 mt-6">
+            <PerformanceCard debateData={bpData} />
             </div>
 
             <div className="mt-4">
@@ -280,76 +280,6 @@ const Dashboard = () => {
             </div>
             <div className="grid grid-cols-1 gap-6 mt-6">
               <TopicCard debateData={bpData} />
-            </div>
-          </div>
-          {/* Australs dashboard cards */}
-          <div hidden={australsData.length === 0} className="mt-6">
-            <h2 className="text-3xl sm:text-4xl font-semibold">Australs</h2>
-            <div className="mt-6">
-              <WSDCAverageSpeaksCard debateData={australsData} />
-            </div>
-            <div className="mt-6">
-              <PerformanceCard debateData={australsData} />
-            </div>
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <PieChartPointCard
-                title="Win"
-                debateData={australsData}
-                points={1}
-              />
-              <PieChartPointCard
-                title="Loss"
-                debateData={australsData}
-                points={0}
-              />
-            </div>
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <PieChartPositionCard
-                title="Affirmative"
-                debateData={australsData}
-                position="AFF"
-              />
-              <PieChartPositionCard
-                title="Negative"
-                debateData={australsData}
-                position="NEG"
-              />
-            </div>
-            <div className="mt-6">
-              <TopicCard debateData={australsData} />
-            </div>
-          </div>
-          {/* WSDC dashboard cards */}
-          <div hidden={wsdcData.length === 0} className="mt-6">
-            <h2 className="text-3xl sm:text-4xl font-semibold">WSDC</h2>
-            <div className="mt-6">
-              <WSDCAverageSpeaksCard debateData={wsdcData} />
-            </div>
-            <div className="mt-6">
-              <PerformanceCard debateData={wsdcData} />
-            </div>
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <PieChartPointCard title="Win" debateData={wsdcData} points={1} />
-              <PieChartPointCard
-                title="Loss"
-                debateData={wsdcData}
-                points={0}
-              />
-            </div>
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <PieChartPositionCard
-                title="Affirmative"
-                debateData={wsdcData}
-                position="AFF"
-              />
-              <PieChartPositionCard
-                title="Negative"
-                debateData={wsdcData}
-                position="NEG"
-              />
-            </div>
-            <div className="mt-6">
-              <TopicCard debateData={wsdcData} />
             </div>
           </div>
         </div>

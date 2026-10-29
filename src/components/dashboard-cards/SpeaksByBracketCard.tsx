@@ -155,7 +155,7 @@ const SpeaksByBracketCard = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-4xl">
+        <CardTitle bigTitle>
           Speaks by Bracket
         </CardTitle>
         <CardDescription>
@@ -188,7 +188,7 @@ const SpeaksByBracketCard = ({
                 const configItem = chartConfig[data.bracket as keyof typeof chartConfig];
 
                 return (
-                  <div className="grid min-w-48 max-w-40 max-h-64 items-start gap-1.5 overflow-auto rounded-lg border border-border/50 bg-background px-2.5 py-1.5 text-xs shadow-xl">
+                  <div className="grid min-w-48 max-w-40 max-h-64 items-start gap-1.5 overflow-auto rounded-lg bg-background px-2.5 py-1.5 text-xs shadow-xl">
                     <div className="flex w-full items-center justify-between gap-2 font-medium">
                       <div className="flex items-center gap-1.5">
                         <span

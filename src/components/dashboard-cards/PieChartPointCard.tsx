@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Cell, Pie, PieChart } from "recharts";
+import { Pie, PieChart } from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
@@ -50,7 +50,10 @@ const PieChartPointCard = ({
     { position: "CO", count: 0 },
     { position: "AFF", count: 0 },
     { position: "NEG", count: 0 },
-  ];
+  ].map((entry) => ({
+    ...entry,
+    fill: chartConfig[entry.position as keyof typeof chartConfig].color,
+  }));
   debateData
     .filter((x) => x["points"] == points)
     .forEach((debate) => {
@@ -81,17 +84,7 @@ const PieChartPointCard = ({
               dataKey="count"
               nameKey="position"
               innerRadius={60}
-            >
-              {chartData.map((entry) => (
-                <Cell
-                  key={entry.position}
-                  fill={
-                    chartConfig[entry.position as keyof typeof chartConfig]
-                      .color
-                  }
-                />
-              ))}
-            </Pie>
+            />
           </PieChart>
         </ChartContainer>
       </CardContent>

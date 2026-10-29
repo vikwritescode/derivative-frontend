@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../context/AuthContext";
 import AverageSpeaksCard from "@/components/dashboard-cards/AverageSpeaksCard";
+import AverageStdevCard from "@/components/dashboard-cards/AverageStdevCard";
 import ScatterCard from "@/components/dashboard-cards/ScatterCard";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { AlertCircleIcon } from "lucide-react";
@@ -25,6 +26,7 @@ import {
 import { Button } from "@/components/ui/button";
 import WSDCAverageSpeaksCard from "@/components/dashboard-cards/WSDCAverageSpeaksCard";
 import SpeaksByBracketCard from "@/components/dashboard-cards/SpeaksByBracketCard";
+import StdevCard from "@/components/dashboard-cards/StdevCard";
 const Speaks = () => {
   const { user } = useContext(Context);
   const [load, setLoad] = useState(false);
@@ -179,7 +181,7 @@ const Speaks = () => {
         </div>
       ) : (
         <div className="mt-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div className="flex flex-col md:flex-row md:justify-between gap-4 items-stretch md:items-center">
               <Tabs
                 defaultValue="year"
@@ -212,12 +214,15 @@ const Speaks = () => {
           {/* BP Speaks cards */}
           <div hidden={bpData.length === 0}>
             <h2 className="text-3xl sm:text-4xl font-semibold mt-6">BP</h2>
-            <div className="grid grid-cols-1 gap-6 mt-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
               <AverageSpeaksCard debateData={bpData} />
+              <StdevCard debateData={bpData} />
+              <AverageStdevCard debateData={bpData} />
+            </div>
+            <div className="grid grid-cols-1 gap-6 mt-6">
               <SpeaksByBracketCard debateData={bpData} />
               <ScatterCard debateData={bpData} />
             </div>
-
           </div>
           {/* Australs Speaks cards */}
           <div hidden={australsData.length === 0} className="mt-6">

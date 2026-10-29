@@ -1,5 +1,13 @@
 import type { DebateRecord } from "@/interfaces";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
 
 interface PositionOrderCardProps {
   position: string;
@@ -70,42 +78,33 @@ const PositionOrderCard = ({
           <CardTitle>{position}</CardTitle>
         </div>
       </CardHeader>
-      <CardContent className="space-y-3">
-        <div className="rounded-lg border bg-muted/30 px-4 py-3">
-          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-            {firstSpeaker}
-          </p>
-          <div className="mt-2 flex items-baseline justify-between">
-            <span className="text-xs text-muted-foreground">Points</span>
-            <span className="text-2xl tabular-nums tracking-tight">
-              {firstSpeakerAvgPoints.toPrecision(3)}
-            </span>
-          </div>
-          <div className="mt-2 flex items-baseline justify-between">
-            <span className="text-xs text-muted-foreground">Speaks</span>
-            <span className="text-2xl tabular-nums tracking-tight">
-              {firstSpeakerAvgSpeaks.toPrecision(3)}
-            </span>
-          </div>
-        </div>
+      <CardContent>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Position</TableHead>
+              <TableHead>Points</TableHead>
+              <TableHead>Speaks</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+        {firstSpeakerCount > 0 && (
+          <TableRow>
+            <TableCell>{firstSpeaker}</TableCell>
+            <TableCell>{firstSpeakerAvgPoints.toPrecision(3)}</TableCell>
+            <TableCell>{firstSpeakerAvgSpeaks.toPrecision(3)}</TableCell>
+          </TableRow>
+        )}
 
-        <div className="rounded-lg border bg-muted/30 px-4 py-3">
-          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-            {secondSpeaker}
-          </p>
-          <div className="mt-2 flex items-baseline justify-between">
-            <span className="text-xs text-muted-foreground">Points</span>
-            <span className="text-2xl tabular-nums tracking-tight">
-              {secondSpeakerAvgPoints.toPrecision(3)}
-            </span>
-          </div>
-          <div className="mt-2 flex items-baseline justify-between">
-            <span className="text-xs text-muted-foreground">Speaks</span>
-            <span className="text-2xl tabular-nums tracking-tight">
-              {secondSpeakerAvgSpeaks.toPrecision(3)}
-            </span>
-          </div>
-        </div>
+        {secondSpeakerCount > 0 && (
+          <TableRow>
+            <TableCell>{secondSpeaker}</TableCell>
+            <TableCell>{secondSpeakerAvgPoints.toPrecision(3)}</TableCell>
+            <TableCell>{secondSpeakerAvgSpeaks.toPrecision(3)}</TableCell>
+          </TableRow>
+        )}
+          </TableBody>
+        </Table>
       </CardContent>
     </Card>
   );

@@ -1,5 +1,5 @@
 import type { DebateRecord } from "@/interfaces";
-import { Card, CardContent } from "../ui/card";
+import { Card, CardContent, CardTitle } from "../ui/card";
 import { mean } from "mathjs";
 import { useEffect, useState } from "react";
 
@@ -19,10 +19,11 @@ const AverageSpeaksCard = ({ debateData }: AverageSpeaksCardProps) => {
 
   return (
     <Card>
+      <CardTitle>
+        Average Speaker Score
+      </CardTitle>
       <CardContent>
-        <h2 className="bold text-2xl">
-          You average a speaker score of {speaks.toFixed(2)}
-        </h2>
+            <p className="text-5xl">{speaks.toFixed(2)}</p>
       </CardContent>
     </Card>
   );
