@@ -50,6 +50,7 @@ import {
   EmptyHeader,
   EmptyTitle,
 } from "@/components/ui/empty";
+import { TooltipProvider } from "@radix-ui/react-tooltip";
 
 const Tournaments = () => {
   type SortKey =
@@ -583,38 +584,40 @@ const Tournaments = () => {
                     </TableCell>
 
                     <TableCell>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <span className="inline-flex">
-                            <Button
-                              disabled={
-                                refreshLoads[i] ||
-                                loads[i] ||
-                                dead.has(rec["id"])
-                              }
-                              variant="outline"
-                              hidden={!dated.has(rec["id"])}
-                              size="icon"
-                              onClick={() => handleRefreshClick(i, rec["id"])}
-                            >
-                              {dead.has(rec["id"]) ? (
-                                <AlertCircleIcon />
-                              ) : refreshLoads[i] ? (
-                                <Spinner />
-                              ) : (
-                                <RefreshCw />
-                              )}
-                            </Button>
-                          </span>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          {dead.has(rec["id"]) ? (
-                            <p>Invalid Tournament. Import again.</p>
-                          ) : (
-                            <p>Refresh Tournament Data</p>
-                          )}
-                        </TooltipContent>
-                      </Tooltip>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span className="inline-flex">
+                              <Button
+                                disabled={
+                                  refreshLoads[i] ||
+                                  loads[i] ||
+                                  dead.has(rec["id"])
+                                }
+                                variant="outline"
+                                hidden={!dated.has(rec["id"])}
+                                size="icon"
+                                onClick={() => handleRefreshClick(i, rec["id"])}
+                              >
+                                {dead.has(rec["id"]) ? (
+                                  <AlertCircleIcon />
+                                ) : refreshLoads[i] ? (
+                                  <Spinner />
+                                ) : (
+                                  <RefreshCw />
+                                )}
+                              </Button>
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            {dead.has(rec["id"]) ? (
+                              <p>Invalid Tournament. Import again.</p>
+                            ) : (
+                              <p>Refresh Tournament Data</p>
+                            )}
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </TableCell>
                   </TableRow>
                 ))}
