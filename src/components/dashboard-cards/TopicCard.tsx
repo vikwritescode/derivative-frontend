@@ -43,7 +43,7 @@ const TopicCard = ({ debateData }: TopicCardProps) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-4xl">Categories</CardTitle>
+        <CardTitle bigTitle>Categories</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
