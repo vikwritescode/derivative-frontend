@@ -48,14 +48,18 @@ const NavBar = () => {
           <NavigationMenu viewport={false}>
             <NavigationMenuList className="flex gap-4">
               <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <NavLink
-                    to="/"
-                    className="whitespace-nowrap overflow-hidden text-center text-ellipsis"
-                  >
-                    Dashboard
-                  </NavLink>
-                </NavigationMenuLink>
+                <NavigationMenuTrigger>Dashboard</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <NavigationMenuLink asChild>
+                    <NavLink to="/">BP</NavLink>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink asChild>
+                    <NavLink to="/australs">Australs</NavLink>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink asChild>
+                    <NavLink to="/wsdc">WSDC</NavLink>
+                  </NavigationMenuLink>
+                </NavigationMenuContent>
               </NavigationMenuItem>
 
               {user && (
@@ -150,12 +154,29 @@ const NavBar = () => {
                 <SheetTitle>Menu</SheetTitle>
               </SheetHeader>
               <div className="flex flex-col gap-4 py-6 flex-1 ml-6">
+                <span className="text-base font-medium">Dashboard</span>
                 <SheetClose asChild>
                   <NavLink
                     to="/"
-                    className="text-base font-medium hover:text-primary"
+                    className="ml-4 text-base font-medium hover:text-primary"
                   >
-                    Dashboard
+                    BP
+                  </NavLink>
+                </SheetClose>
+                <SheetClose asChild>
+                  <NavLink
+                    to="/australs"
+                    className="ml-4 text-base font-medium hover:text-primary"
+                  >
+                    Australs
+                  </NavLink>
+                </SheetClose>
+                <SheetClose asChild>
+                  <NavLink
+                    to="/wsdc"
+                    className="ml-4 text-base font-medium hover:text-primary"
+                  >
+                    WSDC
                   </NavLink>
                 </SheetClose>
                 <SheetClose asChild>
